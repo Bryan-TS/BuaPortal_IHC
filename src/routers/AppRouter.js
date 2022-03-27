@@ -1,10 +1,14 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Grid } from '@material-ui/core';
 import Login from "../components/home/Login";
 import NavBar from "../components/home/NavBar";
 import OverView from "../components/home/OverView";
 import RegisterUser from "../components/home/RegisterUser";
-import Section from "../components/home/Section";
 import DashBoard from "../components/user/DashBoard";
+import Home from "../components/home/Home";
+import MediaCard from "../components/MediaCard";
+import PreguntasIMG from "../../src/assets/img/Preguntas.png"
+
 
 const AppRouter = () => {
     return (
@@ -21,8 +25,18 @@ const AppRouter = () => {
                     <DashBoard/>
                 </Route>
                 <Route exact path = "/">
-                    <OverView/>
-                    <Section/>
+                    <Home/>
+                    {/* <OverView/>
+                    <Grid container justifyContent =  "center">
+
+                        <Grid item>
+                            <MediaCard titulo = "Preguntas" imagen = {PreguntasIMG}/>
+                        </Grid>
+
+                        <Grid item>
+                            <MediaCard titulo = "Grupos" imagen = {GruposIMG}/>
+                        </Grid>                        
+                    </Grid> */}
                 </Route>
             </Switch>
         </Router>
