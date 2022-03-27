@@ -26,44 +26,68 @@ const RegisterUser = () => {
                             <PersonAddIcon className = {classes.icon}/>
                         </Avatar>
                         <Typography variant="h5" color="primary">
-                            Usuario
+                            Registro Usuario
                         </Typography>
                         <form className = {classes.form} onSubmit = {handleSubmit(onSubmit)}>
                             <Grid container spacing = {2}>
                                 <Grid item xs = {6} className = {classes.gridmb}>
                                     <Controller
-                                        name = "name"
+                                        name = "nombre"
+                                        control = {control}
+                                        defaultValue = ""                                        
+                                        rules = {{required: 'Nombre es requerido'}}
+                                        render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                                <TextField
+                                                    label = "Nombre"
+                                                    variant = "outlined"
+                                                    fullWidth                                                    
+                                                    value = {value}
+                                                    onChange={onChange}
+                                                    error={!!error}
+                                                    helperText={error ? error.message : null}
+                                                />
+                                            )
+                                        }                                        
+                                    />                             
+                                </Grid>
+
+                                <Grid item xs = {6} className = {classes.gridmb}>
+                                    <Controller
+                                        name = "apellido"
                                         control = {control}
                                         defaultValue = ""
-                                        rules = {{required: 'Name is required'}}
-                                        render = {
-                                            ({field:{onChange, value}}) => (
+                                        rules = {{required: 'Apellido es requerido'}}
+                                        render={({ field: { onChange, value }, fieldState: { error } }) => (
                                                 <TextField
-                                                    label = "Name"
+                                                    label = "Apellido"
                                                     variant = "outlined"
                                                     fullWidth                                                    
                                                     value = {value}
                                                     onChange = {onChange}
+                                                    error={!!error}
+                                                    helperText={error ? error.message : null}
                                                 />
                                             )
                                         }
                                     />                             
                                 </Grid>
 
-                                <Grid item xs = {6} className = {classes.gridmb}>
+                                <Grid item xs = {12} className = {classes.gridmb}>
                                     <Controller
-                                        name = "lastName"
+                                        name = "descripcion"
                                         control = {control}
                                         defaultValue = ""
-                                        rules = {{required: 'Last name is required'}}
-                                        render = {
-                                            ({field:{onChange, value}}) => (
+                                        rules = {{required: 'Desccripción es requerido'}}
+                                        render={({ field: { onChange, value }, fieldState: { error } }) => (
                                                 <TextField
-                                                    label = "Last Name"
+                                                    label = "Descripción"
                                                     variant = "outlined"
                                                     fullWidth                                                    
                                                     value = {value}
                                                     onChange = {onChange}
+                                                    multiline
+                                                    error={!!error}
+                                                    helperText={error ? error.message : null}
                                                 />
                                             )
                                         }
@@ -75,9 +99,8 @@ const RegisterUser = () => {
                                         name = "email"
                                         control = {control}
                                         defaultValue = ""
-                                        rules = {{required: 'Email is required'}}
-                                        render = {
-                                            ({field:{onChange, value}}) => (
+                                        rules = {{required: 'Email es requerido'}}
+                                        render={({ field: { onChange, value }, fieldState: { error } }) => (
                                                 <TextField
                                                     label = "Email"
                                                     variant = "outlined"
@@ -85,6 +108,8 @@ const RegisterUser = () => {
                                                     fullWidth                                                    
                                                     value = {value}
                                                     onChange = {onChange}
+                                                    error={!!error}
+                                                    helperText={error ? error.message : null}
                                                 />
                                             )
                                         }
@@ -96,16 +121,17 @@ const RegisterUser = () => {
                                         name = "password"
                                         control = {control}
                                         defaultValue = ""
-                                        rules = {{required: 'Password is required'}}
-                                        render = {
-                                            ({field:{onChange,value}}) => (
+                                        rules = {{required: 'Contraseña es requerida'}}
+                                        render={({ field: { onChange, value }, fieldState: { error } }) => (
                                                 <TextField                                                    
-                                                    label = "Password"
+                                                    label = "Contraseña"
                                                     variant = "outlined"
                                                     type = "password"
                                                     fullWidth
                                                     value = {value}
                                                     onChange = {onChange}
+                                                    error={!!error}
+                                                    helperText={error ? error.message : null}
                                                 />
                                             )
                                         }
@@ -116,8 +142,8 @@ const RegisterUser = () => {
                                         type = "submit"
                                         variant="contained" 
                                         fullWidth
-                                        color="primary">
-                                      Sign up
+                                        color="secondary">
+                                      Registrar
                                     </Button>                                
                                 </Grid>                            
                             </Grid>
@@ -125,9 +151,9 @@ const RegisterUser = () => {
                             <Link
                                 to = "/login"
                                 variant = "body1"
-                                className = {classes.link}
-                                >
-                                Do you have an account? Sign in.
+                                className = {classes.link}                                
+                            >
+                                ¿Ya tienes una cuenta? Ingresa.
                             </Link>
                         </form>
                     </Card>
