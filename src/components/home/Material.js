@@ -38,7 +38,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function Material({image}) {
+export default function Material(props) {
 
   const classes = useStyles();
 
@@ -75,12 +75,12 @@ export default function Material({image}) {
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image={image}
+          image={props.image}
           title="Course"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Course
+            {props.titulo}
           </Typography>
           <Typography variant="body1" component="p">
             This course is the best way to become in a excelente element to work team.  
