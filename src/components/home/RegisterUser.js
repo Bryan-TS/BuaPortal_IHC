@@ -5,15 +5,48 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { useForm, Controller } from 'react-hook-form';
 
 import { makeStyles } from '@material-ui/core/styles';
-
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 import Theme from '../../styles/Theme';
 
+const endpoint = 'http://localhost/BuaPortal/BackEnd/BuaPortal_API/public/api/user'
+
 const RegisterUser = () => {
+    const [name,setName] = useState('Hola');
+    const [lastName,setLastName] = useState('');
+    const [description,setDescription] = useState('');
+    const [email,setEmail] = useState('');
+    const [password,setPassword] = useState('');
+
+    // const store = async (e) => {
+    //     e.preventDefault();
+    //     await axios.post(endpoint,{
+    //         name: name,
+    //         lastName: lastName,
+    //         description: description,
+    //         email: email,
+    //         password: password,
+    //     })
+    // }
+
+    // const store = async (e, data) => {
+    //     e.preventDefault();
+    //     await axios.post(endpoint,data)
+    // }
+    
     const {handleSubmit, control} = useForm();
 
-    const onSubmit = data => {
-        console.log(data);
+    const store = async (data) => {
+        const response = await axios.post(endpoint,data);
+        if(response.status == 200){
+            // name.value =  name;
+            // lastName.value = lastName;
+            // description.value = description;
+            // email.value = email;
+            // password.value = password;
+        }
+        // console.log(response);
       };
 
     const classes = useStyles();
@@ -28,11 +61,11 @@ const RegisterUser = () => {
                         <Typography variant="h5" color="primary">
                             Registro Usuario
                         </Typography>
-                        <form className = {classes.form} onSubmit = {handleSubmit(onSubmit)}>
+                        <form className = {classes.form} onSubmit = {handleSubmit(store)}>
                             <Grid container spacing = {2}>
                                 <Grid item xs = {6} className = {classes.gridmb}>
                                     <Controller
-                                        name = "nombre"
+                                        name = "name"
                                         control = {control}
                                         defaultValue = ""                                        
                                         rules = {{required: 'Nombre es requerido'}}
@@ -53,7 +86,7 @@ const RegisterUser = () => {
 
                                 <Grid item xs = {6} className = {classes.gridmb}>
                                     <Controller
-                                        name = "apellido"
+                                        name = "lastName"
                                         control = {control}
                                         defaultValue = ""
                                         rules = {{required: 'Apellido es requerido'}}
@@ -74,7 +107,7 @@ const RegisterUser = () => {
 
                                 <Grid item xs = {12} className = {classes.gridmb}>
                                     <Controller
-                                        name = "descripcion"
+                                        name = "description"
                                         control = {control}
                                         defaultValue = ""
                                         rules = {{required: 'Desccripción es requerido'}}

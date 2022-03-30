@@ -1,25 +1,40 @@
 import { Container, Grid, Card, Avatar, Typography, TextField, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import PersonIcon from '@material-ui/icons/Person';
+import  { Redirect } from 'react-router-dom'
 
 import { useForm, Controller } from 'react-hook-form';
 
 import { makeStyles } from '@material-ui/core/styles';
 
+import axios from 'axios';
+
 
 import Theme from '../../styles/Theme';
+import { useState } from 'react';
 
+const endpoint = 'http://localhost/BuaPortal/BackEnd/BuaPortal_API/public/api/user/login'
 
 const Login = () => {
-
+    const [autenticado,setAutenticado] = useState(false);
     const {handleSubmit, control} = useForm();
 
-    const onSubmit = data => {
-        console.log(data);
-      };
+
+
+    const onSubmit = async data => {
+        const response = await axios.post(endpoint,data);
+        console.log(response);
+        if (response.status == 200){
+            setAutenticado(true);
+        }
+    };
 
     const classes = useStyles();
+    if(autenticado){
+        return <Redirect to='/user/dashboard'/>;
+    }else
     return (
+        
         <Container className = {classes.container}>
             <Grid container justifyContent = "center">
                 <Grid item lg = {5} md = {6}>
@@ -37,9 +52,9 @@ const Login = () => {
                                         name = "email"
                                         control = {control}
                                         defaultValue = ""
-                                        rules = {{required: 'Email is required'}}
+                                        rules = {{required: 'Email es requerido'}}
                                         render = {
-                                            ({field:{onChange, value}}) => (
+                                            ({field:{onChange, value},  fieldState: { error }}) => (
                                                 <TextField
                                                     label = "Email"
                                                     variant = "outlined"
@@ -47,6 +62,8 @@ const Login = () => {
                                                     fullWidth                                                    
                                                     value = {value}
                                                     onChange = {onChange}
+                                                    error={!!error}
+                                                    helperText={error ? error.message : null}
                                                 />
                                             )
                                         }
@@ -58,9 +75,9 @@ const Login = () => {
                                         name = "password"
                                         control = {control}
                                         defaultValue = ""
-                                        rules = {{required: 'Password is required'}}
+                                        rules = {{required: 'Contaseña es requerida'}}
                                         render = {
-                                            ({field:{onChange,value}}) => (
+                                            ({field:{onChange,value},  fieldState: { error }}) => (
                                                 <TextField                                                    
                                                     label = "Password"
                                                     variant = "outlined"
@@ -68,13 +85,15 @@ const Login = () => {
                                                     fullWidth
                                                     value = {value}
                                                     onChange = {onChange}
+                                                    error={!!error}
+                                                    helperText={error ? error.message : null}
                                                 />
                                             )
                                         }
                                     />                                                                       
                                 </Grid>
                                 <Grid item xs = {12} className = {classes.gridmb}>
-                                    <Link to = "/user/dashboard">
+                                    {/* <Link to = "/user/dashboard"> */}
                                         <Button 
                                             type = "submit"
                                             variant="contained" 
@@ -82,17 +101,17 @@ const Login = () => {
                                             color="primary">
                                         Sign in
                                         </Button>  
-                                    </Link>                              
+                                    {/* </Link>                               */}
                                 </Grid>                            
                             </Grid>
 
                             <Link
-                                to = "/signup"
+                                // to = "/signup"
                                 variant = "body1"
                                 className = {classes.link}
                                 >
                                 Don't you have a account?. Sign up
-                            </Link>
+                            </Link>                    
                         </form>
                     </Card>
                 </Grid>
