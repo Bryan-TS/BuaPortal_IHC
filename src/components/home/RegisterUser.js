@@ -1,6 +1,8 @@
 import { Container, Grid, Card, Avatar, Typography, TextField, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import { Box, IconButton } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 
 import { useForm, Controller } from 'react-hook-form';
 
@@ -18,6 +20,12 @@ const RegisterUser = () => {
     const [description,setDescription] = useState('');
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
+
+    const [userCreated,setUserCreated] = useState(false);
+
+    const createUser = () => {
+        setUserCreated(true);
+    }
 
     // const store = async (e) => {
     //     e.preventDefault();
@@ -38,8 +46,15 @@ const RegisterUser = () => {
     const {handleSubmit, control} = useForm();
 
     const store = async (data) => {
+        
+
         const response = await axios.post(endpoint,data);
         if(response.status == 200){
+            setUserCreated(true);  
+        
+            setTimeout(() => {
+                setUserCreated(false);      
+            },3000);
             // name.value =  name;
             // lastName.value = lastName;
             // description.value = description;
@@ -178,7 +193,13 @@ const RegisterUser = () => {
                                         color="secondary">
                                       Registrar
                                     </Button>                                
-                                </Grid>                            
+                                </Grid> 
+                                <Grid item xs = {12} className = {classes.gridmb}>
+                                    <Box >
+                                        {userCreated ?  <Alert variant="filled" severity="success">El usuario fue creado con exito.</Alert> : null}                                           
+                                        
+                                    </Box>
+                                </Grid>                 
                             </Grid>
 
                             <Link
