@@ -2,6 +2,9 @@ import { Avatar, Card, CardContent, CardHeader, Container, Grid, Typography, Cir
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import MailIcon from '@material-ui/icons/Mail';
 import BallotIcon from '@material-ui/icons/Ballot';
+import GroupIcon from '@material-ui/icons/Group';
+import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
+import InfoIcon from '@material-ui/icons/Info';
 // import CropSquareIcon from '@material-ui/icons/CropSquare';
 import { makeStyles } from '@material-ui/core';
 import { amber, blue, green, grey } from '@material-ui/core/colors';
@@ -34,13 +37,13 @@ const DashBoard = () => {
     return (
         <Container className = {classes.container}>
             <Grid container  spacing = {2}>
-                <Grid item xs={6} sm={6}>
+            <Grid item xs={12} sm={12}>
                     <Card>
                         <CardHeader
                             className = {classes.cardHeader}
                             avatar = {
-                                <Avatar className = {classes.avatarAssignmentIcon}>
-                                    <AssignmentIcon/>
+                                <Avatar className = {classes.avatarBallotIcon}>
+                                    <QuestionAnswerIcon/>
                                 </Avatar>
                             }
                             titleTypographyProps = {
@@ -48,55 +51,86 @@ const DashBoard = () => {
                                    variant: "h6"
                                }
                             }
-                            title = "List to do"
+                            title = "Temas que te pueden interesar"
                         />
-                        <CardContent>
-                            <Typography variant="body1" color="initial">
-                                <List>                                    
-                                    <ListItemIcon>                                        
-                                        <FormGroup column>
-                                            <FormControlLabel
-                                            control={<Checkbox name="checkedA" />}
-                                            label="Task 1"
-                                            />
-                                            <FormControlLabel
-                                            control={<Checkbox name="checkedA" />}
-                                            label="Task 2"
-                                            />
-                                            <FormControlLabel
-                                            control={<Checkbox name="checkedA" />}
-                                            label="Task 3"
-                                            />
-                                        </FormGroup>                                        
-                                    </ListItemIcon>
-                                </List>
-                            </Typography>
-                        </CardContent>
-                    </Card>
+                        <CardContent display = "inline-flex">  
+                            <Grid container  spacing = {2}>
 
-                    
-                </Grid>
+                                <Grid item xs={12} sm={4}>    
+                                    <Card>
+                                        <CardHeader
+                                            className = {classes.cardHeader}
+                                            avatar = {
+                                                <Avatar >
+                                                    <InfoIcon/>
+                                                </Avatar>
+                                                
+                                            }
+                                            titleTypographyProps = {
+                                            {
+                                                variant: "h6"
+                                            }
+                                            }
+                                            title = "Tema 1"
+                                            
+                                        />
+                                        <CardContent>
+                                            <Typography variant="body1" color="initial"><b>Descripción 1</b></Typography>                                            
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
 
-                <Grid item xs={6} sm={6}>
-                    <Card>
-                        <CardHeader
-                            className = {classes.cardHeader}
-                            avatar = {
-                                <Avatar className = {classes.avatarMailIcon}>
-                                    <MailIcon/>
-                                </Avatar>
-                            }
-                            titleTypographyProps = {
-                               {
-                                   variant: "h6"
-                               }
-                            }
-                            title = "Messages to you"
-                        />
-                        <CardContent>
-                            <Typography variant="body1" color="initial">
-                                Any content
-                            </Typography>
+                                <Grid item xs={12} sm={4}>                      
+                                    <Card>
+                                        <CardHeader
+                                            className = {classes.cardHeader}
+                                            avatar = {
+                                                <Avatar >
+                                                    <InfoIcon/>
+                                                </Avatar>
+                                                
+                                            }
+                                            titleTypographyProps = {
+                                            {
+                                                variant: "h6"
+                                            }
+                                            }
+                                            title = "Tema 2"
+                                            
+                                        />
+                                        <CardContent>
+                                            <Typography variant="body1" color="initial"><b>Descripción 2 </b></Typography>                                
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+
+                                <Grid item xs={12} sm={4}>                      
+                                    <Card>
+                                        <CardHeader
+                                            className = {classes.cardHeader}
+                                            avatar = {
+                                                <Avatar >
+                                                    <InfoIcon/>
+                                                </Avatar>
+                                                
+                                            }
+                                            titleTypographyProps = {
+                                            {
+                                                variant: "h6"
+                                            }
+                                            }
+                                            title = "Tema 3"
+                                            
+                                        />
+                                        <CardContent>
+                                            <Typography variant="body1" color="initial"><b>Descripción 3</b></Typography>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+
+                                
+                                
+                            </Grid>
                         </CardContent>
                     </Card>
 
@@ -109,7 +143,7 @@ const DashBoard = () => {
                             className = {classes.cardHeader}
                             avatar = {
                                 <Avatar className = {classes.avatarBallotIcon}>
-                                    <BallotIcon/>
+                                    <GroupIcon/>
                                 </Avatar>
                             }
                             titleTypographyProps = {
@@ -117,34 +151,18 @@ const DashBoard = () => {
                                    variant: "h6"
                                }
                             }
-                            title = "Pending courses"
+                            title = "Grupos que te pueden interesar"
                         />
                         <CardContent display = "inline-flex">  
                             <Grid container  spacing = {2}>
 
-                                <Grid item xs={12} sm={4}>                      
+                                <Grid item xs={12} sm={4}>    
                                     <Card>
                                         <CardHeader
                                             className = {classes.cardHeader}
                                             avatar = {
                                                 <Avatar >
-                                                    <Box position="relative" display="inline-flex" justifyContent="center" className = {classes.circleProgress}>
-                                                        <CircularProgress color = "primary" variant="determinate" thickness = {4} value = {50}/>
-                                                        <Box
-                                                            top={0}
-                                                            left={0}
-                                                            bottom={0}
-                                                            right={0}
-                                                            position="absolute"
-                                                            display="flex"
-                                                            alignItems="center"
-                                                            justifyContent="center"
-                                                        >
-                                                            <Typography variant="caption" component="div" color="black">{`${Math.round(
-                                                            50,
-                                                            )}%`}</Typography>
-                                                        </Box>
-                                                    </Box>
+                                                    
                                                 </Avatar>
                                                 
                                             }
@@ -153,12 +171,11 @@ const DashBoard = () => {
                                                 variant: "h6"
                                             }
                                             }
-                                            title = "Course title"
+                                            title = "Grupo 1"
                                             
                                         />
                                         <CardContent>
-                                            <Typography variant="body1" color="initial"><b>Last chapter watched: </b></Typography>
-                                            <Typography variant="body1" color="initial">Chapter title</Typography>                                        
+                                            <Typography variant="body1" color="initial"><b>Descripción 1</b></Typography>                                            
                                         </CardContent>
                                     </Card>
                                 </Grid>
@@ -169,23 +186,7 @@ const DashBoard = () => {
                                             className = {classes.cardHeader}
                                             avatar = {
                                                 <Avatar >
-                                                    <Box position="relative" display="inline-flex" justifyContent="center" className = {classes.circleProgress}>
-                                                        <CircularProgress color = "primary" variant="determinate" thickness = {4} value = {65}/>
-                                                        <Box
-                                                            top={0}
-                                                            left={0}
-                                                            bottom={0}
-                                                            right={0}
-                                                            position="absolute"
-                                                            display="flex"
-                                                            alignItems="center"
-                                                            justifyContent="center"
-                                                        >
-                                                            <Typography variant="caption" component="div" color="black">{`${Math.round(
-                                                            65,
-                                                            )}%`}</Typography>
-                                                        </Box>
-                                                    </Box>
+                                                    
                                                 </Avatar>
                                                 
                                             }
@@ -194,12 +195,11 @@ const DashBoard = () => {
                                                 variant: "h6"
                                             }
                                             }
-                                            title = "Course title"
+                                            title = "Grupo 2"
                                             
                                         />
                                         <CardContent>
-                                            <Typography variant="body1" color="initial"><b>Last chapter watched: </b></Typography>
-                                            <Typography variant="body1" color="initial">Chapter title</Typography>                                        
+                                            <Typography variant="body1" color="initial"><b>Descripción 2 </b></Typography>                                
                                         </CardContent>
                                     </Card>
                                 </Grid>
@@ -210,23 +210,7 @@ const DashBoard = () => {
                                             className = {classes.cardHeader}
                                             avatar = {
                                                 <Avatar >
-                                                    <Box position="relative" display="inline-flex" justifyContent="center" className = {classes.circleProgress}>
-                                                        <CircularProgress color = "primary" variant="determinate" thickness = {4} value = {15}/>
-                                                        <Box
-                                                            top={0}
-                                                            left={0}
-                                                            bottom={0}
-                                                            right={0}
-                                                            position="absolute"
-                                                            display="flex"
-                                                            alignItems="center"
-                                                            justifyContent="center"
-                                                        >
-                                                            <Typography variant="caption" component="div" color="black">{`${Math.round(
-                                                            15,
-                                                            )}%`}</Typography>
-                                                        </Box>
-                                                    </Box>
+                                                    
                                                 </Avatar>
                                                 
                                             }
@@ -235,138 +219,17 @@ const DashBoard = () => {
                                                 variant: "h6"
                                             }
                                             }
-                                            title = "Course title"
+                                            title = "Grupo 3"
                                             
                                         />
                                         <CardContent>
-                                            <Typography variant="body1" color="initial"><b>Last chapter watched: </b></Typography>
-                                            <Typography variant="body1" color="initial">Chapter title</Typography>                                        
+                                            <Typography variant="body1" color="initial"><b>Descripción 3</b></Typography>
                                         </CardContent>
                                     </Card>
                                 </Grid>
 
-                                <Grid item xs={12} sm={4}>                      
-                                    <Card>
-                                        <CardHeader
-                                            className = {classes.cardHeader}
-                                            avatar = {
-                                                <Avatar >
-                                                    <Box position="relative" display="inline-flex" justifyContent="center" className = {classes.circleProgress}>
-                                                        <CircularProgress color = "primary" variant="determinate" thickness = {4} value = {23}/>
-                                                        <Box
-                                                            top={0}
-                                                            left={0}
-                                                            bottom={0}
-                                                            right={0}
-                                                            position="absolute"
-                                                            display="flex"
-                                                            alignItems="center"
-                                                            justifyContent="center"
-                                                        >
-                                                            <Typography variant="caption" component="div" color="black">{`${Math.round(
-                                                            23,
-                                                            )}%`}</Typography>
-                                                        </Box>
-                                                    </Box>
-                                                </Avatar>
-                                                
-                                            }
-                                            titleTypographyProps = {
-                                            {
-                                                variant: "h6"
-                                            }
-                                            }
-                                            title = "Course title"
-                                            
-                                        />
-                                        <CardContent>
-                                            <Typography variant="body1" color="initial"><b>Last chapter watched: </b></Typography>
-                                            <Typography variant="body1" color="initial">Chapter title</Typography>                                        
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-
-                                <Grid item xs={12} sm={4}>                      
-                                    <Card>
-                                        <CardHeader
-                                            className = {classes.cardHeader}
-                                            avatar = {
-                                                <Avatar >
-                                                    <Box position="relative" display="inline-flex" justifyContent="center" className = {classes.circleProgress}>
-                                                        <CircularProgress color = "primary" variant="determinate" thickness = {4} value = {42}/>
-                                                        <Box
-                                                            top={0}
-                                                            left={0}
-                                                            bottom={0}
-                                                            right={0}
-                                                            position="absolute"
-                                                            display="flex"
-                                                            alignItems="center"
-                                                            justifyContent="center"
-                                                        >
-                                                            <Typography variant="caption" component="div" color="black">{`${Math.round(
-                                                            42,
-                                                            )}%`}</Typography>
-                                                        </Box>
-                                                    </Box>
-                                                </Avatar>
-                                                
-                                            }
-                                            titleTypographyProps = {
-                                            {
-                                                variant: "h6"
-                                            }
-                                            }
-                                            title = "Course title"
-                                            
-                                        />
-                                        <CardContent>
-                                            <Typography variant="body1" color="initial"><b>Last chapter watched: </b></Typography>
-                                            <Typography variant="body1" color="initial">Chapter title</Typography>                                        
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-
-                                <Grid item xs={12} sm={4}>                      
-                                    <Card>
-                                        <CardHeader
-                                            className = {classes.cardHeader}
-                                            avatar = {
-                                                <Avatar >
-                                                    <Box position="relative" display="inline-flex" justifyContent="center" className = {classes.circleProgress}>
-                                                        <CircularProgress color = "primary" variant="determinate" thickness = {4} value = {5}/>
-                                                        <Box
-                                                            top={0}
-                                                            left={0}
-                                                            bottom={0}
-                                                            right={0}
-                                                            position="absolute"
-                                                            display="flex"
-                                                            alignItems="center"
-                                                            justifyContent="center"
-                                                        >
-                                                            <Typography variant="caption" component="div" color="black">{`${Math.round(
-                                                            5,
-                                                            )}%`}</Typography>
-                                                        </Box>
-                                                    </Box>
-                                                </Avatar>
-                                                
-                                            }
-                                            titleTypographyProps = {
-                                            {
-                                                variant: "h6"
-                                            }
-                                            }
-                                            title = "Course title"
-                                            
-                                        />
-                                        <CardContent>
-                                            <Typography variant="body1" color="initial"><b>Last chapter watched: </b></Typography>
-                                            <Typography variant="body1" color="initial">Chapter title</Typography>                                        
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
+                                
+                                
                             </Grid>
                         </CardContent>
                     </Card>
