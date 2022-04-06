@@ -2,6 +2,8 @@ import { Container, Grid, Card, Avatar, Typography, TextField, Button } from '@m
 import { Link } from 'react-router-dom';
 import PersonIcon from '@material-ui/icons/Person';
 import  { Redirect } from 'react-router-dom'
+import { Box, IconButton } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 
 import { useForm, Controller } from 'react-hook-form';
 
@@ -18,21 +20,34 @@ const endpoint = 'http://localhost/BuaPortal/BackEnd/BuaPortal_API/public/api/us
 const Login = () => {
     const [autenticado,setAutenticado] = useState(false);
     const {handleSubmit, control} = useForm();
-
+    const [loginFail,setloginFail] = useState(false);
 
 
     const onSubmit = async data => {
         const response = await axios.post(endpoint,data);
-        console.log(response);
-        if (response.status == 200){
+        console.log(response.data);
+        if(response.data == 401){
+            setloginFail(true);
+            setTimeout(() => {
+                setloginFail(false);      
+            },3000);
+        }else{
             setAutenticado(true);
         }
+
+        // if (response.status == 200){
+        //     // setAutenticado(true);
+        // }else{
+            
+        // }
     };
 
     const classes = useStyles();
+
     if(autenticado){
         return <Redirect to='/user/dashboard'/>;
     }else
+
     return (
         
         <Container className = {classes.container}>
@@ -102,7 +117,13 @@ const Login = () => {
                                         Sign in
                                         </Button>  
                                     {/* </Link>                               */}
-                                </Grid>                            
+                                </Grid>  
+                                <Grid item xs = {12} className = {classes.gridmb}>
+                                    <Box >
+                                        {loginFail ?  <Alert variant="filled" severity="error">El usuario fue creado con exito.</Alert> : null}                                           
+                                        
+                                    </Box>
+                                </Grid>                             
                             </Grid>
 
                             <Link
