@@ -9,11 +9,15 @@ import { useForm, Controller } from 'react-hook-form';
 
 import { makeStyles } from '@material-ui/core/styles';
 
+import useUser from '../../hooks/useUser';
+
 import axios from 'axios';
 
 
 import Theme from '../../styles/Theme';
-import { useState } from 'react';
+import { useState, useContext  } from "react";
+
+import { Context } from '../../context/Context';
 
 const endpoint = 'http://localhost/BuaPortal/BackEnd/BuaPortal_API/public/api/user/login'
 
@@ -22,8 +26,15 @@ const Login = () => {
     const {handleSubmit, control} = useForm();
     const [loginFail,setloginFail] = useState(false);
 
+    // const user = useUser();
+
+    const [user,setUser] = useContext(Context);
+
+    console.log(user)
 
     const onSubmit = async data => {
+        // localStorage.setItem("key", "value");
+        // setUser(true);
         const response = await axios.post(endpoint,data);
         console.log(response.data);
         if(response.data == 401){
@@ -32,14 +43,10 @@ const Login = () => {
                 setloginFail(false);      
             },3000);
         }else{
+            // localStorage.setItem("key", "value");
+            setUser(response.data);
             setAutenticado(true);
         }
-
-        // if (response.status == 200){
-        //     // setAutenticado(true);
-        // }else{
-            
-        // }
     };
 
     const classes = useStyles();

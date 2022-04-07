@@ -5,37 +5,39 @@ import RegisterUser from "../components/home/RegisterUser";
 import DashBoard from "../components/user/DashBoard";
 import Home from "../components/home/Home";
 
+import UserContext from "../context/UserContext";
+
+import { useState, createContext } from "react";
+import NavBarUser from "../components/home/NavBarUser";
+
+import { Context } from "./../context/Context";
+
+// const UserContext = createContext();
 
 const AppRouter = () => {
+
+    const [user,setUser] = useState(null);
+
     return (
-        <Router>
-            <NavBar/>
-            <Switch>
-                <Route exact path = "/login">
-                    <Login/>
-                </Route>
-                <Route exact path = "/signup">
-                    <RegisterUser/>
-                </Route>
-                <Route exact path = "/user/dashboard">
-                    <DashBoard/>
-                </Route>
-                <Route exact path = "/">
-                    <Home/>
-                    {/* <OverView/>
-                    <Grid container justifyContent =  "center">
-
-                        <Grid item>
-                            <MediaCard titulo = "Preguntas" imagen = {PreguntasIMG}/>
-                        </Grid>
-
-                        <Grid item>
-                            <MediaCard titulo = "Grupos" imagen = {GruposIMG}/>
-                        </Grid>                        
-                    </Grid> */}
-                </Route>
-            </Switch>
-        </Router>
+        <Context.Provider value={[user,setUser]}>
+            <Router>
+                {user !== null ? <NavBarUser/> : <NavBar/>}              
+                <Switch>
+                    <Route exact path = "/login">
+                        <Login user = {user}/>
+                    </Route>
+                    <Route exact path = "/signup">
+                        <RegisterUser/>
+                    </Route>
+                    <Route exact path = "/user/dashboard">
+                        <DashBoard/>
+                    </Route>
+                    <Route exact path = "/">
+                        <Home/>                    
+                    </Route>
+                </Switch>
+            </Router>
+        </Context.Provider>        
     );
 };
 
