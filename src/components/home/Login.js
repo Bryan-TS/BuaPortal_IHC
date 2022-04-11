@@ -24,15 +24,9 @@ const Login = () => {
     const {handleSubmit, control} = useForm();
     const [loginFail,setloginFail] = useState(false);
 
-    // const user = useUser();
-
     const [user,setUser] = useContext(Context);
 
-    //console.log(user)
-
     const onSubmit = async data => {
-        // localStorage.setItem("key", "value");
-        // setUser(true);
         const response = await axios.post(endpoint,data);
         console.log(response.data);
         if(response.data === 401){
@@ -41,8 +35,8 @@ const Login = () => {
                 setloginFail(false);      
             },3000);
         }else{
-            // localStorage.setItem("key", "value");
             setUser(response.data);
+            localStorage.setItem("user", JSON.stringify(response.data));
             setAutenticado(true);
         }
     };

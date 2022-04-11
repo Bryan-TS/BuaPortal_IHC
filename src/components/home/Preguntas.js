@@ -1,4 +1,4 @@
-import { Avatar, Button, Card, CardContent, CardHeader, Container, Grid, Typography} from '@material-ui/core';
+import { Avatar, Button, Card, CardActionArea, CardContent, CardHeader, Container, Grid, Typography} from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import InfoIcon from '@material-ui/icons/Info';
@@ -6,6 +6,8 @@ import { makeStyles } from '@material-ui/core';
 import { amber, blue, green, grey } from '@material-ui/core/colors';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
     container:{
@@ -34,6 +36,7 @@ const endpoint  = "http://localhost/BuaPortal/BackEnd/BuaPortal_API/public/api/q
 
 const Preguntas = () => {
     const classes = useStyles();
+    const history = useHistory();
 
     const [questionsByUser, setQuestionsByUser] = useState([]);
 
@@ -45,7 +48,9 @@ const Preguntas = () => {
         getQuestionByUser();
     },[]);
 
-
+    const showQuestionById = (id) => {
+        history.push(`/user/pregunta/${id}`);
+    }
     
 
 
@@ -84,7 +89,7 @@ const Preguntas = () => {
                             <Grid container  spacing = {2}>                                
                                 {questionsByUser.map(question => (
                                     <Grid item xs={12} key = {question.id}>    
-                                        <Card>
+                                        <CardActionArea onClick={(e) => showQuestionById(question.id,e)}>
                                             <CardHeader
                                                 className = {classes.cardHeader}
                                                 avatar = {
@@ -102,9 +107,9 @@ const Preguntas = () => {
                                                 
                                             />
                                             <CardContent>
-                                                <Typography variant="body1" color="initial"><b>Descripción 1</b></Typography>                                            
-                                            </CardContent>
-                                        </Card>
+                                                <Typography variant="body1" color="initial"><b>Descripción 1</b></Typography>                                                                                            
+                                            </CardContent>                                        
+                                        </CardActionArea>
                                     </Grid>   
                                 ))}                                                             
                             </Grid>

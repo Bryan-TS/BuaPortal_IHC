@@ -6,7 +6,7 @@ import DashBoard from "../components/user/DashBoard";
 import Home from "../components/home/Home";
 import PreguntasForm from "../components/home/PreguntasForm";
 
-import { useState} from "react";
+import { useEffect, useState} from "react";
 import NavBarUser from "../components/home/NavBarUser";
 
 import { Context } from "./../context/Context";
@@ -17,6 +17,18 @@ import Preguntas from "../components/home/Preguntas";
 const AppRouter = () => {
 
     const [user,setUser] = useState(null);
+
+    useEffect(() => {
+        console.log("Se refresco la aplicación.");
+        const userInLocalStorage = localStorage.getItem("user");
+        const user = JSON.parse(userInLocalStorage);
+
+        if(user === null){
+            console.log("Not logged user yet");
+        }else{
+            setUser(user);
+        }
+    },[]);
 
     return (
         <Context.Provider value={[user,setUser]}>
