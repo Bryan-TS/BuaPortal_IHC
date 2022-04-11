@@ -1,4 +1,5 @@
-import { Avatar, Card, CardContent, CardHeader, Container, Grid, Typography, CircularProgress, Box, ListItemIcon, Checkbox, List, FormGroup, FormControlLabel  } from '@material-ui/core';
+import { Avatar, Button, Card, CardContent, CardHeader, Container, Grid, Typography, CircularProgress, Box, ListItemIcon, Checkbox, List, FormGroup, FormControlLabel  } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import MailIcon from '@material-ui/icons/Mail';
 import BallotIcon from '@material-ui/icons/Ballot';
@@ -37,6 +38,30 @@ const DashBoard = () => {
     return (
         <Container className = {classes.container}>
             <Grid container  spacing = {2}>
+            <Grid item xs={6}>
+                <Link to = "/user/pregunta" style = {{textDecoration: "none"}}>
+                    <Button 
+                        type = "submit"
+                        variant="contained" 
+                        fullWidth
+                        color="primary">
+                        Crear Pregunta
+                    </Button> 
+                </Link>
+            </Grid>
+
+            <Grid item xs={6}>
+                <Link to = "/user/preguntas" style = {{textDecoration: "none"}}>
+                    <Button 
+                        type = "submit"
+                        variant="contained" 
+                        fullWidth
+                        color="primary">
+                        Ver mis preguntas
+                    </Button> 
+                </Link>
+            </Grid>
+
             <Grid item xs={12} sm={12}>
                     <Card>
                         <CardHeader

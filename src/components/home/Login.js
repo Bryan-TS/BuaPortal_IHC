@@ -30,7 +30,7 @@ const Login = () => {
 
     const [user,setUser] = useContext(Context);
 
-    console.log(user)
+    //console.log(user)
 
     const onSubmit = async data => {
         // localStorage.setItem("key", "value");
@@ -127,7 +127,7 @@ const Login = () => {
                                 </Grid>  
                                 <Grid item xs = {12} className = {classes.gridmb}>
                                     <Box >
-                                        {loginFail ?  <Alert variant="filled" severity="error">El usuario fue creado con exito.</Alert> : null}                                           
+                                        {loginFail ?  <Alert variant="filled" severity="error">Error sus credenciales son incorrectas.</Alert> : null}                                           
                                         
                                     </Box>
                                 </Grid>                             
