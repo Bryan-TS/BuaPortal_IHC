@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Button, Box, Typography, IconButton, ListItem, List, Drawer, ListItemText, ListItemIcon, Divider} from '@material-ui/core';
+import { AppBar, Toolbar, Button, Box, Grid, Typography, IconButton, ListItem, List, Drawer, ListItemText, ListItemIcon, Divider} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Person } from '@material-ui/icons';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -88,8 +88,19 @@ const NavBarUser = () => {
                 </Link>
               </ListItem>
             </List>
-          </Drawer>            
-          <Box className = {classes.credentialsBox}>
+          </Drawer>    
+          <Grid container justifyContent="flex-end">
+            <Typography variant="h6" color="initial" className = {classes.title}>
+                Bienvenido {user.name}
+              </Typography>
+              <Link onClick={logOut} className = {classes.link}>
+                <Button variant="text" color="inherit" className = {classes.navigationBtn}>
+                  Cerrar sesión
+                </Button>
+              </Link>
+          </Grid>
+
+          {/* <Box display="flex" justifyContent="flex-end" className = {classes.credentialsBox}>
             <Typography variant="h6" color="initial" className = {classes.title}>
               Bienvenido {user.name}
             </Typography>
@@ -98,7 +109,7 @@ const NavBarUser = () => {
                 Cerrar sesión
               </Button>
             </Link>
-          </Box>
+          </Box> */}
         </Toolbar>
       </AppBar>     
     </>

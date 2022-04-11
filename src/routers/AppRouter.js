@@ -12,8 +12,6 @@ import NavBarUser from "../components/home/NavBarUser";
 import { Context } from "./../context/Context";
 import Preguntas from "../components/home/Preguntas";
 
-// const UserContext = createContext();
-
 const AppRouter = () => {
 
     const [user,setUser] = useState(null);
