@@ -2,14 +2,12 @@ import { Container, Grid, Card, Avatar, Typography, TextField, Button } from '@m
 import { Link } from 'react-router-dom';
 import PersonIcon from '@material-ui/icons/Person';
 import  { Redirect } from 'react-router-dom'
-import { Box, IconButton } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
 import { useForm, Controller } from 'react-hook-form';
 
 import { makeStyles } from '@material-ui/core/styles';
-
-import useUser from '../../hooks/useUser';
 
 import axios from 'axios';
 
@@ -37,7 +35,7 @@ const Login = () => {
         // setUser(true);
         const response = await axios.post(endpoint,data);
         console.log(response.data);
-        if(response.data == 401){
+        if(response.data === 401){
             setloginFail(true);
             setTimeout(() => {
                 setloginFail(false);      

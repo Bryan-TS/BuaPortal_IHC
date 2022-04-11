@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Person } from '@material-ui/icons';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
-import  { Redirect } from 'react-router-dom'
 
 import { useState, useContext  } from "react";
 import { Context } from '../../context/Context';
@@ -23,55 +22,30 @@ const NavBarUser = () => {
   const history = useHistory();
 
   const [user,setUser] = useContext(Context);
-  const [isLogOut,setIsLogOut] = useState(false);
 
   const logOut = () => {
     setUser(null);
     history.push("/login");
   }
 
-  if(user === null){
-    return <Redirect to='/login'/>;
-  }else
-    return (
-      <>      
-        <AppBar position="relative">
-          <Toolbar >  
-            <IconButton style = {{color: "white"}} onClick = {toggleDrawer}>
-              <MenuIcon className = {classes.menuIcon}/>
-            </IconButton>   
-            <Typography variant="h6" color="initial" className = {classes.title}>
-              BuaPortal
-            </Typography>
-            <img src={BUAPIconN} alt="Logo" width = "25px" height = "auto"/>
+  return (
+    <>      
+      <AppBar position="relative">
+        <Toolbar >  
+          <IconButton style = {{color: "white"}} onClick = {toggleDrawer}>
+            <MenuIcon className = {classes.menuIcon}/>
+          </IconButton>   
+          <Typography variant="h6" color="initial" className = {classes.title}>
+            BuaPortal
+          </Typography>
+          <img src={BUAPIconN} alt="Logo" width = "25px" height = "auto"/>
 
-            <Drawer
-              open = {openDrawer}
-              onClose = {toggleDrawer}
-            >
-              <List className = {classes.list}>
-                
-                  <li>
-                    <Typography
-                      className={classes.dividerFullWidth}
-                      color="textSecondary"
-                      display="block"
-                      variant="caption"
-                    >
-                    Navigation
-                    </Typography>
-                  </li>
-                <ListItem button onClick = {toggleDrawer} className = {classes.listItem}>
-                  <Link to = "/" color = "inherit" className = {classes.linkAppBarMobile} underline = "none">
-                    <ListItemIcon className = {classes.listItemIcon}>
-                      <HomeIcon/>
-                    </ListItemIcon>                  
-                    <ListItemText>
-                      Home
-                    </ListItemText>
-                  </Link>
-                </ListItem>
-                <Divider component="li" />
+          <Drawer
+            open = {openDrawer}
+            onClose = {toggleDrawer}
+          >
+            <List className = {classes.list}>
+              
                 <li>
                   <Typography
                     className={classes.dividerFullWidth}
@@ -79,34 +53,55 @@ const NavBarUser = () => {
                     display="block"
                     variant="caption"
                   >
-                    User
+                  Navigation
                   </Typography>
                 </li>
-                <ListItem button onClick = {toggleDrawer} className = {classes.listItem}>
-                  <Link to = "/login" color = "inherit" className = {classes.linkAppBarMobile} underline = "none">
-                    <ListItemIcon className = {classes.listItemIcon}>
-                      <Person/>
-                    </ListItemIcon>
-                    <ListItemText>
-                      Bienvenido
-                    </ListItemText>
-                  </Link>
-                </ListItem>
-              </List>
-            </Drawer>            
-            <Box className = {classes.credentialsBox}>
-              <Typography variant="h6" color="initial" className = {classes.title}>
-                Bienvenido {user.name}
-              </Typography>
-              <Link onClick={logOut} className = {classes.link}>
-                <Button variant="text" color="inherit" className = {classes.navigationBtn}>
-                  Cerrar sesión
-                </Button>
-              </Link>
-            </Box>
-          </Toolbar>
-        </AppBar>     
-      </>
+              <ListItem button onClick = {toggleDrawer} className = {classes.listItem}>
+                <Link to = "/" color = "inherit" className = {classes.linkAppBarMobile} underline = "none">
+                  <ListItemIcon className = {classes.listItemIcon}>
+                    <HomeIcon/>
+                  </ListItemIcon>                  
+                  <ListItemText>
+                    Home
+                  </ListItemText>
+                </Link>
+              </ListItem>
+              <Divider component="li" />
+              <li>
+                <Typography
+                  className={classes.dividerFullWidth}
+                  color="textSecondary"
+                  display="block"
+                  variant="caption"
+                >
+                  User
+                </Typography>
+              </li>
+              <ListItem button onClick = {toggleDrawer} className = {classes.listItem}>
+                <Link to = "/login" color = "inherit" className = {classes.linkAppBarMobile} underline = "none">
+                  <ListItemIcon className = {classes.listItemIcon}>
+                    <Person/>
+                  </ListItemIcon>
+                  <ListItemText>
+                    Bienvenido
+                  </ListItemText>
+                </Link>
+              </ListItem>
+            </List>
+          </Drawer>            
+          <Box className = {classes.credentialsBox}>
+            <Typography variant="h6" color="initial" className = {classes.title}>
+              Bienvenido {user.name}
+            </Typography>
+            <Link onClick={logOut} className = {classes.link}>
+              <Button variant="text" color="inherit" className = {classes.navigationBtn}>
+                Cerrar sesión
+              </Button>
+            </Link>
+          </Box>
+        </Toolbar>
+      </AppBar>     
+    </>
   );
 };
 

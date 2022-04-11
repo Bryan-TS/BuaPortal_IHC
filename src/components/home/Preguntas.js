@@ -1,8 +1,7 @@
-import { Avatar, Button, Card, CardContent, CardHeader, Container, Grid, Typography, CircularProgress, Box, ListItemIcon, Checkbox, List, FormGroup, FormControlLabel  } from '@material-ui/core';
+import { Avatar, Button, Card, CardContent, CardHeader, Container, Grid, Typography} from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import InfoIcon from '@material-ui/icons/Info';
-// import CropSquareIcon from '@material-ui/icons/CropSquare';
 import { makeStyles } from '@material-ui/core';
 import { amber, blue, green, grey } from '@material-ui/core/colors';
 import { useEffect, useState } from 'react';
@@ -41,9 +40,8 @@ const Preguntas = () => {
     useEffect(() => {
         const getQuestionByUser = async() => {
             const response = await axios.get(endpoint);
-            console.log(response.data);
+            setQuestionsByUser(response.data);                        
         }
-
         getQuestionByUser();
     },[]);
 
@@ -83,10 +81,9 @@ const Preguntas = () => {
                             title = "Preguntas"
                         />
                         <CardContent display = "inline-flex">  
-                            <Grid container  spacing = {2}>
-
-                                {/* {animals.map(animal => (
-                                    <Grid item xs={12}>    
+                            <Grid container  spacing = {2}>                                
+                                {questionsByUser.map(question => (
+                                    <Grid item xs={12} key = {question.id}>    
                                         <Card>
                                             <CardHeader
                                                 className = {classes.cardHeader}
@@ -101,7 +98,7 @@ const Preguntas = () => {
                                                     variant: "h6"
                                                 }
                                                 }
-                                                title = "Tema 1"
+                                                title = {question.title}
                                                 
                                             />
                                             <CardContent>
@@ -109,7 +106,7 @@ const Preguntas = () => {
                                             </CardContent>
                                         </Card>
                                     </Grid>   
-                                ))}                                                              */}
+                                ))}                                                             
                             </Grid>
                         </CardContent>
                     </Card>
@@ -119,9 +116,6 @@ const Preguntas = () => {
 
                 
             </Grid>
-            {/* <Grid container spacing = {2}>
-                
-            </Grid> */}
         </Container>       
     );
 };

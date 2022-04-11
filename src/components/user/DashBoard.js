@@ -1,12 +1,8 @@
-import { Avatar, Button, Card, CardContent, CardHeader, Container, Grid, Typography, CircularProgress, Box, ListItemIcon, Checkbox, List, FormGroup, FormControlLabel  } from '@material-ui/core';
+import { Avatar, Button, Card, CardContent, CardHeader, Container, Grid, Typography} from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import MailIcon from '@material-ui/icons/Mail';
-import BallotIcon from '@material-ui/icons/Ballot';
 import GroupIcon from '@material-ui/icons/Group';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import InfoIcon from '@material-ui/icons/Info';
-// import CropSquareIcon from '@material-ui/icons/CropSquare';
 import { makeStyles } from '@material-ui/core';
 import { amber, blue, green, grey } from '@material-ui/core/colors';
 

@@ -6,10 +6,7 @@ import DashBoard from "../components/user/DashBoard";
 import Home from "../components/home/Home";
 import PreguntasForm from "../components/home/PreguntasForm";
 
-
-import UserContext from "../context/UserContext";
-
-import { useState, createContext } from "react";
+import { useState} from "react";
 import NavBarUser from "../components/home/NavBarUser";
 
 import { Context } from "./../context/Context";

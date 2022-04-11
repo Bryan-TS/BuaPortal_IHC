@@ -1,15 +1,13 @@
 import { Container, Grid, Card, Avatar, Typography, TextField, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
-
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
-import { Box, IconButton } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
 import { useForm, Controller } from 'react-hook-form';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
 import Theme from '../../styles/Theme';
@@ -17,11 +15,6 @@ import Theme from '../../styles/Theme';
 const endpoint = 'http://localhost/BuaPortal/BackEnd/BuaPortal_API/public/api/question'
 
 const PreguntasForm = () => {
-    const [name,setName] = useState('Hola');
-    const [lastName,setLastName] = useState('');
-    const [description,setDescription] = useState('');
-    const [email,setEmail] = useState('');
-    const [password,setPassword] = useState('');
 
     const [questionCreated,setQuestionCreated] = useState(false);
     
@@ -29,7 +22,7 @@ const PreguntasForm = () => {
 
     const store = async (data) => {
         const response = await axios.post(endpoint,data);
-        if(response.status == 200){
+        if(response.status === 200){
             setQuestionCreated(true);  
         
             setTimeout(() => {
