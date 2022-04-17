@@ -1,10 +1,11 @@
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import Login from "../components/home/Login";
 import NavBar from "../components/home/NavBar";
 import RegisterUser from "../components/home/RegisterUser";
 import DashBoard from "../components/user/DashBoard";
 import Home from "../components/home/Home";
-import PreguntasForm from "../components/home/PreguntasForm";
+import PreguntaCreate from "../components/home/PreguntaCreate";
+import PreguntaEdit from "../components/home/PreguntaEdit";
 
 import { useEffect, useState} from "react";
 import NavBarUser from "../components/home/NavBarUser";
@@ -24,7 +25,7 @@ const AppRouter = () => {
         if(user === null){
             console.log("Not logged user yet");
         }else{
-            setUser(user);
+            setUser(user);            
         }
     },[]);
 
@@ -32,6 +33,7 @@ const AppRouter = () => {
         <Context.Provider value={[user,setUser]}>
             <Router>
                 {user !== null ? <NavBarUser/> : <NavBar/>}              
+                {user !== null ? <Redirect to="/user/dashboard"/>: <Redirect to="/"/>}              
                 <Switch>
                     <Route exact path = "/login">
                         <Login user = {user}/>
@@ -43,10 +45,13 @@ const AppRouter = () => {
                         <DashBoard/>
                     </Route>
                     <Route exact path = "/user/pregunta">
-                        <PreguntasForm/>
+                        <PreguntaCreate/>
                     </Route>
                     <Route exact path = "/user/preguntas">
                         <Preguntas/>
+                    </Route>
+                    <Route exact path = "/user/pregunta/:id">
+                        <PreguntaEdit/>
                     </Route>
                     <Route exact path = "/">
                         <Home/>                    

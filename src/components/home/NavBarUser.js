@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Button, Box, Grid, Typography, IconButton, ListItem, List, Drawer, ListItemText, ListItemIcon, Divider} from '@material-ui/core';
+import { AppBar, Toolbar, Button, Grid, Typography, IconButton, ListItem, List, Drawer, ListItemText, ListItemIcon, Divider} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Person } from '@material-ui/icons';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -25,6 +25,7 @@ const NavBarUser = () => {
 
   const logOut = () => {
     setUser(null);
+    localStorage.removeItem(user);
     history.push("/login");
   }
 

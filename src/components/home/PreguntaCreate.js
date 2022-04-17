@@ -5,6 +5,7 @@ import { Box } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
 import { useForm, Controller } from 'react-hook-form';
+import { useHistory } from "react-router-dom";
 
 import { makeStyles } from '@material-ui/core/styles';
 import { useState } from 'react';
@@ -14,11 +15,12 @@ import Theme from '../../styles/Theme';
 
 const endpoint = 'http://localhost/BuaPortal/BackEnd/BuaPortal_API/public/api/question'
 
-const PreguntasForm = () => {
+const PreguntasCreate = () => {
 
     const [questionCreated,setQuestionCreated] = useState(false);
     
     const {handleSubmit, control} = useForm();
+    const history = useHistory();
 
     const store = async (data) => {
         const response = await axios.post(endpoint,data);
@@ -27,7 +29,10 @@ const PreguntasForm = () => {
         
             setTimeout(() => {
                 setQuestionCreated(false);      
+                history.push("/user/preguntas");
             },3000);
+
+            
         }
     };
 
@@ -128,7 +133,7 @@ const PreguntasForm = () => {
                                         variant="contained" 
                                         fullWidth
                                         color="secondary">
-                                      Registrar
+                                      Crear
                                     </Button>                                
                                 </Grid> 
                                 <Grid item xs = {12} className = {classes.gridmb}>
@@ -178,4 +183,4 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-export default PreguntasForm;
+export default PreguntasCreate;
