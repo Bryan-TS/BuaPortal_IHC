@@ -7,8 +7,10 @@ import Alert from '@material-ui/lab/Alert';
 import { useForm, Controller } from 'react-hook-form';
 import { useHistory } from "react-router-dom";
 
+import { Context } from '../../context/Context';
+
 import { makeStyles } from '@material-ui/core/styles';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import axios from 'axios';
 
 import Theme from '../../styles/Theme';
@@ -20,10 +22,13 @@ const PreguntasCreate = () => {
     const [questionCreated,setQuestionCreated] = useState(false);
     
     const {handleSubmit, control} = useForm();
+    const [user,setUser] = useContext(Context);
     const history = useHistory();
 
     const store = async (data) => {
+        data = {...data,userId: user.id}
         const response = await axios.post(endpoint,data);
+
         if(response.status === 200){
             setQuestionCreated(true);  
         
@@ -31,8 +36,6 @@ const PreguntasCreate = () => {
                 setQuestionCreated(false);      
                 history.push("/user/preguntas");
             },3000);
-
-            
         }
     };
 
@@ -138,11 +141,12 @@ const PreguntasCreate = () => {
                                 </Grid> 
                                 <Grid item xs = {12} className = {classes.gridmb}>
                                     <Box >
-                                        {questionCreated ?  <Alert variant="filled" severity="success">El usuario fue creado con exito.</Alert> : null}                                           
+                                        {questionCreated ?  <Alert variant="filled" severity="success">Pregunta creada con exito.</Alert> : null}                                           
                                         
                                     </Box>
                                 </Grid>                 
-                            </Grid>                    
+                            </Grid>   
+
                         </form>
                     </Card>
                 </Grid>

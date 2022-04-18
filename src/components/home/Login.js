@@ -126,7 +126,7 @@ const Login = () => {
                             </Grid>
 
                             <Link
-                                // to = "/signup"
+                                to = "/signup"
                                 variant = "body1"
                                 className = {classes.link}
                                 >

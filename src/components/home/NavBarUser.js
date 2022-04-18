@@ -1,8 +1,11 @@
-import { AppBar, Toolbar, Button, Grid, Typography, IconButton, ListItem, List, Drawer, ListItemText, ListItemIcon, Divider} from '@material-ui/core';
+import { AppBar, Toolbar, Button, Grid, Typography, IconButton, ListItem, List, Drawer, ListItemText, ListItemIcon, Divider, TextField, search, Box} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Person } from '@material-ui/icons';
 import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
 import { Link } from 'react-router-dom';
+import { styled, alpha } from '@material-ui/core/styles';
+import InputBase from '@material-ui/core/InputBase/InputBase'
 
 import { useState, useContext  } from "react";
 import { Context } from '../../context/Context';
@@ -11,9 +14,53 @@ import { useHistory } from "react-router-dom";
 
 import BUAPIconN from '../../assets/img/BUAPIconNegativo.png'
 import HomeIcon from '@material-ui/icons/Home';
+import { SearchContext } from '../../context/SearchContext';
+
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(3),
+    width: 'auto',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+// const StyledInputBase = styled(InputBase)(({ theme }) => ({
+//   color: 'inherit',
+//   '& .MuiInputBase-input': {
+//     padding: theme.spacing(1, 1, 1, 0),
+//     // vertical padding + font size from searchIcon
+//     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+//     transition: theme.transitions.create('width'),
+//     width: '100%',
+//     [theme.breakpoints.up('md')]: {
+//       width: '20ch',
+//     },
+//   },
+// }));
 
 const NavBarUser = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [searchButtonClicked,setSearchButtonClicked] = useContext(SearchContext);
+  const [searchTerm,setSearchTerm] = useState('');
+
   const toggleDrawer = () => {
     setOpenDrawer(!openDrawer);
   }
@@ -27,6 +74,11 @@ const NavBarUser = () => {
     setUser(null);
     localStorage.removeItem(user);
     history.push("/login");
+  }
+
+  const search = () => {
+    setSearchButtonClicked(!searchButtonClicked);
+    history.push(`/user/search/${searchTerm}`);
   }
 
   return (
@@ -89,8 +141,19 @@ const NavBarUser = () => {
                 </Link>
               </ListItem>
             </List>
-          </Drawer>    
-          <Grid container justifyContent="flex-end">
+          </Drawer>
+          
+              <Typography variant="h6" color="initial" className = {classes.title}>
+                Buscar
+              </Typography>
+          
+            {/* <TextField id="filled-basic" variant="filled" style={{backgroundColor: "white",width: 400}} /> */}
+            <TextField id="outlined-basic" label="Outlined" variant="outlined" onChange={event => setSearchTerm(event.target.value)}/>
+            <IconButton onClick={search}>
+              <SearchIcon/>
+            </IconButton>
+     
+          <Grid container justifyContent="flex-end" className={classes.credentialsBox}>
             <Typography variant="h6" color="initial" className = {classes.title}>
                 Bienvenido {user.name}
               </Typography>
@@ -128,7 +191,10 @@ const useStyles = makeStyles(theme => ({
   title:{
     color: "white",
     display: "inline",
-    marginRight: 5
+    marginRight: 5,
+    [theme.breakpoints.down('xs')]:{
+      display: "none"
+    }
   },
   navigationBox: {
     flexGrow: 1,
@@ -148,7 +214,9 @@ const useStyles = makeStyles(theme => ({
     }
   },
   credentialsBox: {
-    marginTop: 5
+    [theme.breakpoints.down('xs')]:{
+      display: "none"
+    }
   },
   link: {
     color: "inherit",

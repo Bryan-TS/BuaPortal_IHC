@@ -12,10 +12,15 @@ import NavBarUser from "../components/home/NavBarUser";
 
 import { Context } from "./../context/Context";
 import Preguntas from "../components/home/Preguntas";
+import SearchResults from "../components/user/SearchResults";
+import { SearchContext } from "../context/SearchContext";
+
+
 
 const AppRouter = () => {
 
     const [user,setUser] = useState(null);
+    const [searchButtonClicked,setSearchButtonClicked] = useState(false);
 
     useEffect(() => {
         console.log("Se refresco la aplicación.");
@@ -31,33 +36,38 @@ const AppRouter = () => {
 
     return (
         <Context.Provider value={[user,setUser]}>
-            <Router>
-                {user !== null ? <NavBarUser/> : <NavBar/>}              
-                {user !== null ? <Redirect to="/user/dashboard"/>: <Redirect to="/"/>}              
-                <Switch>
-                    <Route exact path = "/login">
-                        <Login user = {user}/>
-                    </Route>
-                    <Route exact path = "/signup">
-                        <RegisterUser/>
-                    </Route>
-                    <Route exact path = "/user/dashboard">
-                        <DashBoard/>
-                    </Route>
-                    <Route exact path = "/user/pregunta">
-                        <PreguntaCreate/>
-                    </Route>
-                    <Route exact path = "/user/preguntas">
-                        <Preguntas/>
-                    </Route>
-                    <Route exact path = "/user/pregunta/:id">
-                        <PreguntaEdit/>
-                    </Route>
-                    <Route exact path = "/">
-                        <Home/>                    
-                    </Route>
-                </Switch>
-            </Router>
+            <SearchContext.Provider value = {[searchButtonClicked,setSearchButtonClicked]}>
+                <Router>
+                    {user !== null ? <NavBarUser/> : <NavBar/>}              
+                    {user !== null ? <Redirect to="/user/dashboard"/>: <Redirect to="/"/>}              
+                    <Switch>
+                        <Route exact path = "/login">
+                            <Login user = {user}/>
+                        </Route>
+                        <Route exact path = "/signup">
+                            <RegisterUser/>
+                        </Route>
+                        <Route exact path = "/user/dashboard">
+                            <DashBoard/>
+                        </Route>
+                        <Route exact path = "/user/pregunta">
+                            <PreguntaCreate/>
+                        </Route>
+                        <Route exact path = "/user/preguntas">
+                            <Preguntas/>
+                        </Route>
+                        <Route exact path = "/user/pregunta/:id">
+                            <PreguntaEdit/>
+                        </Route>
+                        <Route exact path = "/user/search/:searchTerm">
+                            <SearchResults/>
+                        </Route>
+                        <Route exact path = "/">
+                            <Home/>                    
+                        </Route>
+                    </Switch>
+                </Router>
+            </SearchContext.Provider>
         </Context.Provider>        
     );
 };

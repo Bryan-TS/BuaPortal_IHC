@@ -4,7 +4,8 @@ import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import InfoIcon from '@material-ui/icons/Info';
 import { makeStyles } from '@material-ui/core';
 import { amber, blue, green, grey } from '@material-ui/core/colors';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { Context } from '../../context/Context';
 import axios from 'axios';
 
 import { useHistory } from "react-router-dom";
@@ -32,18 +33,21 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-const endpoint  = "http://localhost/BuaPortal/BackEnd/BuaPortal_API/public/api/question";
+const endpoint  = "http://localhost/BuaPortal/BackEnd/BuaPortal_API/public/api/questionsByUser";
 
 const Preguntas = () => {
     const classes = useStyles();
     const history = useHistory();
 
     const [questionsByUser, setQuestionsByUser] = useState([]);
+    const [user,setUser] = useContext(Context);
 
     useEffect(() => {
         const getQuestionByUser = async() => {
-            const response = await axios.get(endpoint);
-            setQuestionsByUser(response.data);                        
+            if(user !== null){
+                const response = await axios.get(`${endpoint}/${user.id}`);
+                setQuestionsByUser(response.data);
+            }                                    
         }
         getQuestionByUser();
     },[]);
@@ -87,7 +91,8 @@ const Preguntas = () => {
                         />
                         <CardContent display = "inline-flex">  
                             <Grid container  spacing = {2}>                                
-                                {questionsByUser.map(question => (
+                            {
+                               questionsByUser.length > 0 ? (questionsByUser.map(question => (
                                     <Grid item xs={12} key = {question.id}>    
                                         <CardActionArea onClick={(e) => showQuestionById(question.id,e)}>
                                             <CardHeader
@@ -111,15 +116,18 @@ const Preguntas = () => {
                                             </CardContent>                                        
                                         </CardActionArea>
                                     </Grid>   
-                                ))}                                                             
+                                ))) : (
+                                    <Grid container justifyContent = "center">
+                                        <Typography variant = "h5">
+                                            No hay resultados
+                                        </Typography>
+                                    </Grid>
+                                )
+                            }                                                            
                             </Grid>
                         </CardContent>
-                    </Card>
-
-                    
-                </Grid>
-
-                
+                    </Card>                    
+                </Grid>                
             </Grid>
         </Container>       
     );
