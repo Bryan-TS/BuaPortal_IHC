@@ -5,6 +5,7 @@ import { Box } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
 import { useForm, Controller } from 'react-hook-form';
+import { useHistory } from "react-router-dom";
 
 import { makeStyles } from '@material-ui/core/styles';
 import { useState } from 'react';
@@ -33,7 +34,7 @@ const RegisterUser = () => {
     // }
     
     const {handleSubmit, control} = useForm();
-
+    const history = useHistory();
     const store = async (data) => {
         
 
@@ -42,7 +43,8 @@ const RegisterUser = () => {
             setUserCreated(true);  
         
             setTimeout(() => {
-                setUserCreated(false);      
+                setUserCreated(false);
+                history.push("/login");      
             },3000);
             // name.value =  name;
             // lastName.value = lastName;

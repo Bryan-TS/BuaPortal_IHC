@@ -148,7 +148,7 @@ const NavBarUser = () => {
               </Typography>
           
             {/* <TextField id="filled-basic" variant="filled" style={{backgroundColor: "white",width: 400}} /> */}
-            <TextField id="outlined-basic" label="Outlined" variant="outlined" onChange={event => setSearchTerm(event.target.value)}/>
+            <TextField id="outlined-basic" variant="outlined" onChange={event => setSearchTerm(event.target.value)} style={{backgroundColor:"white", width: 700}}/>
             <IconButton onClick={search}>
               <SearchIcon/>
             </IconButton>
