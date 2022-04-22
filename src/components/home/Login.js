@@ -2,7 +2,7 @@ import { Container, Grid, Card, Avatar, Typography, TextField, Button } from '@m
 import { Link } from 'react-router-dom';
 import PersonIcon from '@material-ui/icons/Person';
 import  { Redirect } from 'react-router-dom'
-import { Box, IconButton } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
 import { useForm, Controller } from 'react-hook-form';
@@ -13,33 +13,36 @@ import axios from 'axios';
 
 
 import Theme from '../../styles/Theme';
-import { useState } from 'react';
+import { useState, useContext  } from "react";
 
-const endpoint = 'http://localhost/BuaPortal/BackEnd/BuaPortal_API/public/api/user/login'
+import { Context } from '../../context/Context';
+
+const endpoint = 'https://myapplication123321.000webhostapp.com/api/user/login'
 
 const Login = () => {
     const [autenticado,setAutenticado] = useState(false);
     const {handleSubmit, control} = useForm();
     const [loginFail,setloginFail] = useState(false);
 
+    const [user,setUser] = useContext(Context);
 
     const onSubmit = async data => {
+
+        data = JSON.stringify(data);
+        console.log(data);
         const response = await axios.post(endpoint,data);
         console.log(response.data);
-        if(response.data == 401){
+        if(response.data === 401){
             setloginFail(true);
             setTimeout(() => {
                 setloginFail(false);      
             },3000);
         }else{
+            setUser(response.data);
+            localStorage.setItem("user", JSON.stringify(response.data));
             setAutenticado(true);
         }
-
-        // if (response.status == 200){
-        //     // setAutenticado(true);
-        // }else{
-            
-        // }
+        
     };
 
     const classes = useStyles();
@@ -120,14 +123,14 @@ const Login = () => {
                                 </Grid>  
                                 <Grid item xs = {12} className = {classes.gridmb}>
                                     <Box >
-                                        {loginFail ?  <Alert variant="filled" severity="error">El usuario fue creado con exito.</Alert> : null}                                           
+                                        {loginFail ?  <Alert variant="filled" severity="error">Error sus credenciales son incorrectas.</Alert> : null}                                           
                                         
                                     </Box>
                                 </Grid>                             
                             </Grid>
 
                             <Link
-                                // to = "/signup"
+                                to = "/signup"
                                 variant = "body1"
                                 className = {classes.link}
                                 >

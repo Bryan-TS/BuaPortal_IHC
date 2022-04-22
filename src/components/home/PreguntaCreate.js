@@ -1,59 +1,43 @@
 import { Container, Grid, Card, Avatar, Typography, TextField, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import { Box } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
 import { useForm, Controller } from 'react-hook-form';
 import { useHistory } from "react-router-dom";
 
+import { Context } from '../../context/Context';
+
 import { makeStyles } from '@material-ui/core/styles';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import axios from 'axios';
 
 import Theme from '../../styles/Theme';
 
-const endpoint = 'https://myapplication123321.000webhostapp.com/api/user'
+const endpoint = 'https://myapplication123321.000webhostapp.com/api/question'
 
-const RegisterUser = () => {
-    const [userCreated,setUserCreated] = useState(false);
-    // const store = async (e) => {
-    //     e.preventDefault();
-    //     await axios.post(endpoint,{
-    //         name: name,
-    //         lastName: lastName,
-    //         description: description,
-    //         email: email,
-    //         password: password,
-    //     })
-    // }
+const PreguntasCreate = () => {
 
-    // const store = async (e, data) => {
-    //     e.preventDefault();
-    //     await axios.post(endpoint,data)
-    // }
+    const [questionCreated,setQuestionCreated] = useState(false);
     
     const {handleSubmit, control} = useForm();
+    const [user,setUser] = useContext(Context);
     const history = useHistory();
+
     const store = async (data) => {
-        
-        data = JSON.stringify(data);
-        const response = await axios.post(endpoint,JSON.stringify(data));
+        data = {...data,userId: user.id}
+        const response = await axios.post(endpoint,data);
+
         if(response.status === 200){
-            setUserCreated(true);  
+            setQuestionCreated(true);  
         
             setTimeout(() => {
-                setUserCreated(false);
-                history.push("/login");      
+                setQuestionCreated(false);      
+                history.push("/user/preguntas");
             },3000);
-            // name.value =  name;
-            // lastName.value = lastName;
-            // description.value = description;
-            // email.value = email;
-            // password.value = password;
         }
-        // console.log(response);
-      };
+    };
 
     const classes = useStyles();
     return (
@@ -62,22 +46,22 @@ const RegisterUser = () => {
                 <Grid item lg = {5} md = {6}>
                     <Card align = "center" className = {classes.card}>
                         <Avatar className = {classes.avatar}>
-                            <PersonAddIcon className = {classes.icon}/>
+                            <QuestionAnswerIcon className = {classes.icon}/>
                         </Avatar>
                         <Typography variant="h5" color="primary">
-                            Registro Usuario
+                            Crear Pregunta
                         </Typography>
                         <form className = {classes.form} onSubmit = {handleSubmit(store)}>
                             <Grid container spacing = {2}>
-                                <Grid item xs = {6} className = {classes.gridmb}>
+                                <Grid item xs = {12} className = {classes.gridmb}>
                                     <Controller
-                                        name = "name"
+                                        name = "category"
                                         control = {control}
                                         defaultValue = ""                                        
-                                        rules = {{required: 'Nombre es requerido'}}
+                                        rules = {{required: 'Categoria es requerido'}}
                                         render={({ field: { onChange, value }, fieldState: { error } }) => (
                                                 <TextField
-                                                    label = "Nombre"
+                                                    label = "Categoria"
                                                     variant = "outlined"
                                                     fullWidth                                                    
                                                     value = {value}
@@ -90,33 +74,33 @@ const RegisterUser = () => {
                                     />                             
                                 </Grid>
 
-                                <Grid item xs = {6} className = {classes.gridmb}>
+                                <Grid item xs = {12} className = {classes.gridmb}>
                                     <Controller
-                                        name = "lastName"
+                                        name = "title"
                                         control = {control}
-                                        defaultValue = ""
-                                        rules = {{required: 'Apellido es requerido'}}
+                                        defaultValue = ""                                        
+                                        rules = {{required: 'Titulo es requerido'}}
                                         render={({ field: { onChange, value }, fieldState: { error } }) => (
                                                 <TextField
-                                                    label = "Apellido"
+                                                    label = "Titulo"
                                                     variant = "outlined"
                                                     fullWidth                                                    
                                                     value = {value}
-                                                    onChange = {onChange}
+                                                    onChange={onChange}
                                                     error={!!error}
                                                     helperText={error ? error.message : null}
                                                 />
                                             )
-                                        }
+                                        }                                        
                                     />                             
                                 </Grid>
-
+                        
                                 <Grid item xs = {12} className = {classes.gridmb}>
                                     <Controller
                                         name = "description"
                                         control = {control}
                                         defaultValue = ""
-                                        rules = {{required: 'Desccripción es requerido'}}
+                                        rules = {{required: 'Descripción es requerido'}}
                                         render={({ field: { onChange, value }, fieldState: { error } }) => (
                                                 <TextField
                                                     label = "Descripción"
@@ -133,73 +117,36 @@ const RegisterUser = () => {
                                     />                             
                                 </Grid>
 
-                                <Grid item xs = {12} className = {classes.gridmb}>
-                                    <Controller
-                                        name = "email"
-                                        control = {control}
-                                        defaultValue = ""
-                                        rules = {{required: 'Email es requerido'}}
-                                        render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                                <TextField
-                                                    label = "Email"
-                                                    variant = "outlined"
-                                                    type = "email"
-                                                    fullWidth                                                    
-                                                    value = {value}
-                                                    onChange = {onChange}
-                                                    error={!!error}
-                                                    helperText={error ? error.message : null}
-                                                />
-                                            )
-                                        }
-                                    />                             
+                                <Grid item xs = {6} className = {classes.gridmb}>
+                                    <Link to = "/user/dashboard" style = {{textDecoration: "none"}}>
+                                        <Button 
+                                                type = "submit"
+                                                variant="contained" 
+                                                fullWidth
+                                                style={{backgroundColor: "#72727E"}}
+                                                >
+                                            Atras
+                                            </Button> 
+                                    </Link>                                                                   
                                 </Grid>
 
-                                <Grid item xs = {12} className = {classes.gridmb}> 
-                                    <Controller
-                                        name = "password"
-                                        control = {control}
-                                        defaultValue = ""
-                                        rules = {{required: 'Contraseña es requerida'}}
-                                        render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                                <TextField                                                    
-                                                    label = "Contraseña"
-                                                    variant = "outlined"
-                                                    type = "password"
-                                                    fullWidth
-                                                    value = {value}
-                                                    onChange = {onChange}
-                                                    error={!!error}
-                                                    helperText={error ? error.message : null}
-                                                />
-                                            )
-                                        }
-                                    />                                                                       
-                                </Grid>
-                                <Grid item xs = {12} className = {classes.gridmb}>
+                                <Grid item xs = {6} className = {classes.gridmb}>
                                     <Button 
                                         type = "submit"
                                         variant="contained" 
                                         fullWidth
                                         color="secondary">
-                                      Registrar
+                                      Crear
                                     </Button>                                
                                 </Grid> 
                                 <Grid item xs = {12} className = {classes.gridmb}>
                                     <Box >
-                                        {userCreated ?  <Alert variant="filled" severity="success">El usuario fue creado con exito.</Alert> : null}                                           
+                                        {questionCreated ?  <Alert variant="filled" severity="success">Pregunta creada con exito.</Alert> : null}                                           
                                         
                                     </Box>
                                 </Grid>                 
-                            </Grid>
+                            </Grid>   
 
-                            <Link
-                                to = "/login"
-                                variant = "body1"
-                                className = {classes.link}                                
-                            >
-                                ¿Ya tienes una cuenta? Ingresa.
-                            </Link>
                         </form>
                     </Card>
                 </Grid>
@@ -240,4 +187,4 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-export default RegisterUser;
+export default PreguntasCreate;

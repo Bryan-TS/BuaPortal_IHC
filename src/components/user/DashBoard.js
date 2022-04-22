@@ -1,11 +1,8 @@
-import { Avatar, Card, CardContent, CardHeader, Container, Grid, Typography, CircularProgress, Box, ListItemIcon, Checkbox, List, FormGroup, FormControlLabel  } from '@material-ui/core';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import MailIcon from '@material-ui/icons/Mail';
-import BallotIcon from '@material-ui/icons/Ballot';
+import { Avatar, Button, Card, CardContent, CardHeader, Container, Grid, Typography} from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import GroupIcon from '@material-ui/icons/Group';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import InfoIcon from '@material-ui/icons/Info';
-// import CropSquareIcon from '@material-ui/icons/CropSquare';
 import { makeStyles } from '@material-ui/core';
 import { amber, blue, green, grey } from '@material-ui/core/colors';
 
@@ -37,6 +34,30 @@ const DashBoard = () => {
     return (
         <Container className = {classes.container}>
             <Grid container  spacing = {2}>
+            <Grid item xs={6}>
+                <Link to = "/user/pregunta" style = {{textDecoration: "none"}}>
+                    <Button 
+                        type = "submit"
+                        variant="contained" 
+                        fullWidth
+                        color="primary">
+                        Crear Pregunta
+                    </Button> 
+                </Link>
+            </Grid>
+
+            <Grid item xs={6}>
+                <Link to = "/user/preguntas" style = {{textDecoration: "none"}}>
+                    <Button 
+                        type = "submit"
+                        variant="contained" 
+                        fullWidth
+                        color="primary">
+                        Ver mis preguntas
+                    </Button> 
+                </Link>
+            </Grid>
+
             <Grid item xs={12} sm={12}>
                     <Card>
                         <CardHeader
