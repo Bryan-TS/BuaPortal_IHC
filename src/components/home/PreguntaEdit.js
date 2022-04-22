@@ -12,17 +12,21 @@ import { useForm, Controller } from 'react-hook-form';
 import { useHistory } from "react-router-dom";
 
 import { makeStyles } from '@material-ui/core/styles';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import Theme from '../../styles/Theme';
+import { Context } from '../../context/Context';
 
-const endpoint = 'http://localhost/BuaPortal/BackEnd/BuaPortal_API/public/api/question'
+const endpoint = 'https://myapplication123321.000webhostapp.com/api/question'
 
 const PreguntasEdit = () => {
 
     const [questionCreated,setQuestionCreated] = useState(false);
     const [editable,setEditable] = useState("disabled");
+    const [question,setQuestion] = useState(null);
+    const [user,setUser] = useContext(Context);
     
     const {handleSubmit, control} = useForm();
     const history = useHistory();
@@ -34,153 +38,180 @@ const PreguntasEdit = () => {
             setEditable("disabled");
     }
 
-    const store = async (data) => {
-        const response = await axios.post(endpoint,data);
+    const update = async (data) => {
+        const response = await axios.put(`${endpoint}/${id}`,data);
         if(response.status === 200){
             setQuestionCreated(true);  
-        
+            setEditable("disabled"); 
             setTimeout(() => {
                 setQuestionCreated(false);      
-                history.push("/user/preguntas");
-            },3000);
-
-            
+            },3000);            
         }
     };
+
+    const deleteQuestion = async () => {
+        const response = await axios.delete(`${endpoint}/${id}`);
+        if(response.status === 200){
+            setQuestionCreated(true);               
+            setTimeout(() => {
+                setQuestionCreated(false);      
+                history.push('/user/preguntas');
+            },3000);            
+        }
+    };
+
+    const {id} = useParams();
+
+    useEffect(()=>{
+        const questionById = async() => {            
+            const response = await axios.get(`${endpoint}/${id}`);
+            setQuestion(response.data);  
+            console.log(response.data);                                              
+        }
+        questionById();
+        // console.log(`Peticion: ${endpoint}/${id}}`);
+        // console.log(question);
+        console.log(user);
+    },[]);
 
     const classes = useStyles();
     return (
         <>
-            <Container className = {classes.container}>
-                <Grid container justifyContent = "center">
-                    <Grid item lg = {5} md = {6}>
-                        <Card align = "center" className = {classes.card}>
-                            <Avatar className = {classes.avatar}>
-                                <QuestionAnswerIcon className = {classes.icon}/>
-                            </Avatar>
-                            <Typography variant="h5" color="primary">
-                                Pregunta
-                            </Typography>
-                            <form className = {classes.form} onSubmit = {handleSubmit(store)}>
-                                <Grid container spacing = {2}>
-                                    <Grid item xs = {12} container justifyContent="flex-end">                                    
-                                            <IconButton color = "secondary" onClick={editableToogle}>
-                                                <BorderColorIcon />
-                                            </IconButton>
-                                            <IconButton color = "red">
-                                                <DeleteIcon />
-                                            </IconButton>                                                                      
-                                    </Grid>
-                                    <Grid item xs = {12} className = {classes.gridmb}>
-                                        <Controller
-                                            name = "category"
-                                            control = {control}
-                                            defaultValue = ""                                        
-                                            rules = {{required: 'Categoria es requerido'}}
-                                            render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                                    <TextField
-                                                        label = "Categoria"
-                                                        variant = "outlined"
-                                                        fullWidth                                                    
-                                                        value = {value}
-                                                        onChange={onChange}
-                                                        error={!!error}
-                                                        helperText={error ? error.message : null}
-                                                        disabled = {editable}
-                                                    />
-                                                )
-                                            }                                        
-                                        />                             
-                                    </Grid>
-
-                                    <Grid item xs = {12} className = {classes.gridmb}>
-                                        <Controller
-                                            name = "title"
-                                            control = {control}
-                                            defaultValue = ""                                        
-                                            rules = {{required: 'Titulo es requerido'}}
-                                            render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                                    <TextField
-                                                        label = "Titulo"
-                                                        variant = "outlined"
-                                                        fullWidth                                                    
-                                                        value = {value}
-                                                        onChange={onChange}
-                                                        error={!!error}
-                                                        helperText={error ? error.message : null}
-                                                        disabled = {editable}
-                                                    />
-                                                )
-                                            }                                        
-                                        />                             
-                                    </Grid>
-                            
-                                    <Grid item xs = {12}>
-                                        <Controller
-                                            name = "description"
-                                            control = {control}
-                                            defaultValue = ""
-                                            rules = {{required: 'Descripción es requerido'}}
-                                            render={({ field: { onChange, value }, fieldState: { error } }) => (
-                                                    <TextField
-                                                        label = "Descripción"
-                                                        variant = "outlined"
-                                                        fullWidth                                                    
-                                                        value = {value}
-                                                        onChange = {onChange}
-                                                        multiline
-                                                        error={!!error}
-                                                        helperText={error ? error.message : null}
-                                                        disabled = {editable}
-                                                    />
-                                                )
-                                            }
-                                        />                             
-                                    </Grid>
-                                    <Grid item xs = {12} container justifyContent="flex-end">
-                                        <Typography style={{marginRight:5}}>
-                                            500
-                                        </Typography>
-                                        <VisibilityIcon/>
-                                    </Grid>
-                                    <Grid item xs = {6} className = {classes.gridmb}>
-                                        <Link to = "/user/dashboard" style = {{textDecoration: "none"}}>
-                                            <Button 
+            {user !== null && question !== null ? 
+                <Container className = {classes.container}>
+                    <Grid container justifyContent = "center">
+                        <Grid item lg = {5} md = {6}>
+                            <Card align = "center" className = {classes.card}>
+                                <Avatar className = {classes.avatar}>
+                                    <QuestionAnswerIcon className = {classes.icon}/>
+                                </Avatar>
+                                <Typography variant="h5" color="primary">
+                                    Pregunta
+                                </Typography>
+                                <form className = {classes.form} onSubmit = {handleSubmit(update)}>
+                                    <Grid container spacing = {2}>
+                                        {user.id === question.user_id ? 
+                                            <Grid item xs = {12} container justifyContent="flex-end">                                    
+                                                    <IconButton color = "secondary" onClick={editableToogle}>
+                                                        <BorderColorIcon />
+                                                    </IconButton>
+                                                    <IconButton color = "red">
+                                                        <DeleteIcon />
+                                                    </IconButton>                                                                      
+                                            </Grid>:
+                                            <></>
+                                        }
+                                        <Grid item xs = {12} className = {classes.gridmb}>
+                                            <Controller
+                                                name = "category"
+                                                control = {control}
+                                                defaultValue = {question.category}                                        
+                                                rules = {{required: 'Categoria es requerido'}}
+                                                render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                                        <TextField
+                                                            label = "Categoria"
+                                                            variant = "outlined"
+                                                            fullWidth                                                    
+                                                            value = {value}
+                                                            onChange={onChange}
+                                                            error={!!error}
+                                                            helperText={error ? error.message : null}
+                                                            disabled = {editable}
+                                                        />
+                                                    )
+                                                }                                        
+                                            />                             
+                                        </Grid>
+                
+                                        <Grid item xs = {12} className = {classes.gridmb}>
+                                            <Controller
+                                                name = "title"
+                                                control = {control}
+                                                defaultValue = {question.title}                                        
+                                                rules = {{required: 'Titulo es requerido'}}
+                                                render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                                        <TextField
+                                                            label = "Titulo"
+                                                            variant = "outlined"
+                                                            fullWidth                                                    
+                                                            value = {value}
+                                                            onChange={onChange}
+                                                            error={!!error}
+                                                            helperText={error ? error.message : null}
+                                                            disabled = {editable}
+                                                        />
+                                                    )
+                                                }                                        
+                                            />                             
+                                        </Grid>
+                                
+                                        <Grid item xs = {12}>
+                                            <Controller
+                                                name = "description"
+                                                control = {control}
+                                                defaultValue = {question.description}
+                                                rules = {{required: 'Descripción es requerido'}}
+                                                render={({ field: { onChange, value }, fieldState: { error } }) => (
+                                                        <TextField
+                                                            label = "Descripción"
+                                                            variant = "outlined"
+                                                            fullWidth                                                    
+                                                            value = {value}
+                                                            onChange = {onChange}
+                                                            multiline
+                                                            error={!!error}
+                                                            helperText={error ? error.message : null}
+                                                            disabled = {editable}
+                                                        />
+                                                    )
+                                                }
+                                            />                             
+                                        </Grid>
+                                        <Grid item xs = {12} container justifyContent="flex-end">
+                                            <Typography style={{marginRight:5}}>
+                                                500
+                                            </Typography>
+                                            <VisibilityIcon/>
+                                        </Grid>
+                                        <Grid item xs = {6} className = {classes.gridmb}>
+                                            <Link to = "/user/dashboard" style = {{textDecoration: "none"}}>
+                                                <Button 
+                                                        type = "submit"
+                                                        variant="contained" 
+                                                        fullWidth
+                                                        style={{backgroundColor: "#72727E"}}
+                                                        >
+                                                    Atras
+                                                    </Button> 
+                                            </Link>                                                                   
+                                        </Grid>
+                                        {editable === "" ? 
+                                            <Grid item xs = {6} className = {classes.gridmb}>
+                                                <Button 
                                                     type = "submit"
                                                     variant="contained" 
                                                     fullWidth
-                                                    style={{backgroundColor: "#72727E"}}
-                                                    >
-                                                Atras
-                                                </Button> 
-                                        </Link>                                                                   
-                                    </Grid>
-                                    {editable === "" ? 
-                                        <Grid item xs = {6} className = {classes.gridmb}>
-                                            <Button 
-                                                type = "submit"
-                                                variant="contained" 
-                                                fullWidth
-                                                color="secondary">
-                                            Guardar
-                                            </Button>                                
-                                        </Grid>: <></>}                          
-                                    
-                                    
-                                    <Grid item xs = {12} className = {classes.gridmb}>
-                                        <Box >
-                                            {questionCreated ?  <Alert variant="filled" severity="success">El usuario fue creado con exito.</Alert> : null}                                           
-                                            
-                                        </Box>
-                                    </Grid>                 
-                                </Grid>                    
-                            </form>
-                        </Card>
+                                                    color="secondary">
+                                                Guardar
+                                                </Button>                                
+                                            </Grid>: <></>}                          
+                                        
+                                        
+                                        <Grid item xs = {12} className = {classes.gridmb}>
+                                            <Box >
+                                                {questionCreated ?  <Alert variant="filled" severity="success">La pregunta fue modificada con exito.</Alert> : null}                                                                                           
+                                            </Box>
+                                        </Grid>                 
+                                    </Grid>                    
+                                </form>
+                            </Card>
+                        </Grid>
                     </Grid>
-                </Grid>
-                <Respuestas/>
-            </Container>
-            
+                    <Respuestas/>
+                </Container>
+            :
+                <></>                                                
+            }
         </>
     );
 };

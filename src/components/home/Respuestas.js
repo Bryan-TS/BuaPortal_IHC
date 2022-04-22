@@ -12,7 +12,7 @@ import axios from 'axios';
 import Theme from '../../styles/Theme';
 import Respuesta from './Respuesta';
 
-const endpoint = 'http://localhost/BuaPortal/BackEnd/BuaPortal_API/public/api/question'
+const endpoint = 'https://myapplication123321.000webhostapp.com/api/question'
 
 const PreguntasForm = () => {
     

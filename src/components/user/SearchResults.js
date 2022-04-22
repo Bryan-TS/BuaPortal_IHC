@@ -34,7 +34,7 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-const endpoint = 'http://localhost/BuaPortal/BackEnd/BuaPortal_API/public/api/questionsBySearching';
+const endpoint = 'https://myapplication123321.000webhostapp.com/api/questionsBySearching';
 
 const SearchResults = () => {
 

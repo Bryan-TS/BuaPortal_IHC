@@ -13,7 +13,7 @@ import axios from 'axios';
 
 import Theme from '../../styles/Theme';
 
-const endpoint = 'http://localhost/BuaPortal/BackEnd/BuaPortal_API/public/api/user'
+const endpoint = 'https://myapplication123321.000webhostapp.com/api/user'
 
 const RegisterUser = () => {
     const [userCreated,setUserCreated] = useState(false);
@@ -37,8 +37,8 @@ const RegisterUser = () => {
     const history = useHistory();
     const store = async (data) => {
         
-
-        const response = await axios.post(endpoint,data);
+        data = JSON.stringify(data);
+        const response = await axios.post(endpoint,JSON.stringify(data));
         if(response.status === 200){
             setUserCreated(true);  
         

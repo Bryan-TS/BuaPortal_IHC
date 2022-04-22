@@ -33,7 +33,8 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-const endpoint  = "http://localhost/BuaPortal/BackEnd/BuaPortal_API/public/api/questionsByUser";
+// const endpoint  = "http://localhost/BuaPortal/BackEnd/BuaPortal_API/public/api/questionsByUser";
+const endpoint  = "https://myapplication123321.000webhostapp.com/api/questionsByUser";
 
 const Preguntas = () => {
     const classes = useStyles();

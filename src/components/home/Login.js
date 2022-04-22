@@ -17,7 +17,7 @@ import { useState, useContext  } from "react";
 
 import { Context } from '../../context/Context';
 
-const endpoint = 'http://localhost/BuaPortal/BackEnd/BuaPortal_API/public/api/user/login'
+const endpoint = 'https://myapplication123321.000webhostapp.com/api/user/login'
 
 const Login = () => {
     const [autenticado,setAutenticado] = useState(false);
@@ -27,6 +27,9 @@ const Login = () => {
     const [user,setUser] = useContext(Context);
 
     const onSubmit = async data => {
+
+        data = JSON.stringify(data);
+        console.log(data);
         const response = await axios.post(endpoint,data);
         console.log(response.data);
         if(response.data === 401){
@@ -39,6 +42,7 @@ const Login = () => {
             localStorage.setItem("user", JSON.stringify(response.data));
             setAutenticado(true);
         }
+        
     };
 
     const classes = useStyles();
