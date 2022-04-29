@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { SearchContext } from '../../context/SearchContext';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(() => ({
     container:{
@@ -34,7 +35,7 @@ const useStyles = makeStyles(() => ({
     }
 }));
 
-const endpoint = 'https://myapplication123321.000webhostapp.com/api/questionsBySearching';
+const endpoint = 'https://whispering-bastion-51346.herokuapp.com/api/questionsBySearching';
 
 const SearchResults = () => {
 
@@ -42,12 +43,13 @@ const SearchResults = () => {
     const [results, setResults] = useState([]);
     const {searchTerm} = useParams();
 
+    const history = useHistory();
     
-
     useEffect(() => {
         const getResults = async() => {            
             const response = await axios.get(`${endpoint}/${searchTerm}`);
-            setResults(response.data);                                                
+            const responseData = response.data;
+            setResults(responseData.data);                                                
         }
         getResults();
         console.log(`Peticion: ${endpoint}/${encodeURIComponent(searchTerm)}`);
@@ -56,6 +58,10 @@ const SearchResults = () => {
 
         // setSearchButtonClicked(false);
     },[searchButtonClicked]);
+
+    const showQuestionById = (id) => {
+        history.push(`/user/pregunta/${id}`);
+    }
 
     const classes = useStyles();
     return (
@@ -106,7 +112,7 @@ const SearchResults = () => {
                                 {
                                 results.length > 0 ? (results.map(result => (
                                         <Grid item xs={12} key = {result.id}>    
-                                            <CardActionArea>
+                                            <CardActionArea onClick={(e) => showQuestionById(result.id,e)}>
                                                 <CardHeader
                                                     className = {classes.cardHeader}
                                                     avatar = {
@@ -122,10 +128,7 @@ const SearchResults = () => {
                                                     }
                                                     title = {result.title}
                                                     
-                                                />
-                                                <CardContent>
-                                                    <Typography variant="body1" color="initial"><b>Descripción 1</b></Typography>                                                                                            
-                                                </CardContent>                                        
+                                                />                                        
                                             </CardActionArea>
                                         </Grid>   
                                     ))) : (

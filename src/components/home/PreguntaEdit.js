@@ -4,6 +4,7 @@ import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import DeleteIcon from '@material-ui/icons/Delete';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { Box } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 import Respuestas from './Respuestas';
@@ -19,13 +20,18 @@ import axios from 'axios';
 import Theme from '../../styles/Theme';
 import { Context } from '../../context/Context';
 
-const endpoint = 'https://myapplication123321.000webhostapp.com/api/question'
+const endpoint = 'https://whispering-bastion-51346.herokuapp.com/api/question'
 
 const PreguntasEdit = () => {
 
     const [questionCreated,setQuestionCreated] = useState(false);
     const [editable,setEditable] = useState("disabled");
     const [question,setQuestion] = useState(null);
+    //const [questionInit,setQuestionInit] = useState(null);
+    const [category,setCategory] = useState("");
+    const [title,setTitle] = useState("");
+    const [description,setDescription] = useState("");
+
     const [user,setUser] = useContext(Context);
     
     const {handleSubmit, control} = useForm();
@@ -40,7 +46,8 @@ const PreguntasEdit = () => {
 
     const update = async (data) => {
         const response = await axios.put(`${endpoint}/${id}`,data);
-        if(response.status === 200){
+        const responseData = response.data;
+        if(responseData.code === 200){
             setQuestionCreated(true);  
             setEditable("disabled"); 
             setTimeout(() => {
@@ -51,7 +58,8 @@ const PreguntasEdit = () => {
 
     const deleteQuestion = async () => {
         const response = await axios.delete(`${endpoint}/${id}`);
-        if(response.status === 200){
+        const responseData = response.data;
+        if(responseData.code === 200){
             setQuestionCreated(true);               
             setTimeout(() => {
                 setQuestionCreated(false);      
@@ -62,16 +70,26 @@ const PreguntasEdit = () => {
 
     const {id} = useParams();
 
+    const cancelEdit = () =>{
+        setTitle()
+        setDescription()
+    }
+
     useEffect(()=>{
         const questionById = async() => {            
             const response = await axios.get(`${endpoint}/${id}`);
-            setQuestion(response.data);  
-            console.log(response.data);                                              
+            const responseData = response.data;
+
+            if(responseData.code === 200){
+                setQuestion(responseData.data);  
+                // setQuestionInit(responseData.data);
+                setCategory(responseData.data.category)
+                setTitle(responseData.data.title)
+                setDescription(responseData.data.description)
+                console.log(response.data); 
+            }                                                         
         }
         questionById();
-        // console.log(`Peticion: ${endpoint}/${id}}`);
-        // console.log(question);
-        console.log(user);
     },[]);
 
     const classes = useStyles();
@@ -79,8 +97,14 @@ const PreguntasEdit = () => {
         <>
             {user !== null && question !== null ? 
                 <Container className = {classes.container}>
+                    <Grid container>
+                        <IconButton style={{backgroundColor: "#003B5C"}}>
+                            <ArrowBackIcon style={{color: "white"}} onClick={history.goBack}/>
+                        </IconButton>
+                    </Grid>
                     <Grid container justifyContent = "center">
-                        <Grid item lg = {5} md = {6}>
+                        {/* <Grid item lg = {5} md = {6}> */}
+                        <Grid item >
                             <Card align = "center" className = {classes.card}>
                                 <Avatar className = {classes.avatar}>
                                     <QuestionAnswerIcon className = {classes.icon}/>
@@ -104,8 +128,8 @@ const PreguntasEdit = () => {
                                         <Grid item xs = {12} className = {classes.gridmb}>
                                             <Controller
                                                 name = "category"
-                                                control = {control}
-                                                defaultValue = {question.category}                                        
+                                                control = {control}  
+                                                defaultValue = {question.category}                                 
                                                 rules = {{required: 'Categoria es requerido'}}
                                                 render={({ field: { onChange, value }, fieldState: { error } }) => (
                                                         <TextField
@@ -117,6 +141,12 @@ const PreguntasEdit = () => {
                                                             error={!!error}
                                                             helperText={error ? error.message : null}
                                                             disabled = {editable}
+                                                            style={{color:'black',opacity:1}}
+                                                            inputProps={{ className: classes.input }}
+                                                            InputLabelProps={{
+                                                                style: { color: 'black' },
+                                                              }}
+                                                            claseName = {classes.input}
                                                         />
                                                     )
                                                 }                                        
@@ -138,6 +168,10 @@ const PreguntasEdit = () => {
                                                             onChange={onChange}
                                                             error={!!error}
                                                             helperText={error ? error.message : null}
+                                                            inputProps={{ className: classes.input }}
+                                                            InputLabelProps={{
+                                                                style: { color: 'black' },
+                                                              }}
                                                             disabled = {editable}
                                                         />
                                                     )
@@ -162,39 +196,46 @@ const PreguntasEdit = () => {
                                                             error={!!error}
                                                             helperText={error ? error.message : null}
                                                             disabled = {editable}
+                                                            inputProps={{ className: classes.input }}
+                                                            InputLabelProps={{
+                                                                style: { color: 'black' },
+                                                              }}
+                                                            rows={8}
                                                         />
                                                     )
                                                 }
                                             />                             
                                         </Grid>
-                                        <Grid item xs = {12} container justifyContent="flex-end">
+                                        <Grid item xs = {12}  container justifyContent="flex-end">
                                             <Typography style={{marginRight:5}}>
-                                                500
+                                                {Math.floor(Math.random() * 51)}
                                             </Typography>
                                             <VisibilityIcon/>
-                                        </Grid>
-                                        <Grid item xs = {6} className = {classes.gridmb}>
-                                            <Link to = "/user/dashboard" style = {{textDecoration: "none"}}>
-                                                <Button 
+                                        </Grid>                                        
+                                        {editable === "" ? 
+                                            <>
+                                                <Grid item xs = {6} md = {2} justifyContent="center" className = {classes.gridmb}>
+                                                        <Button 
+                                                                variant="contained" 
+                                                                fullWidth
+                                                                style={{backgroundColor: "#72727E"}}
+                                                                onClick = {cancelEdit}
+                                                                >
+                                                            Cancelar
+                                                        </Button> 
+                                                </Grid>
+                                                <Grid item xs = {6} md = {2} justifyContent="center" className = {classes.gridmb}>
+                                                    <Button 
                                                         type = "submit"
                                                         variant="contained" 
                                                         fullWidth
-                                                        style={{backgroundColor: "#72727E"}}
-                                                        >
-                                                    Atras
-                                                    </Button> 
-                                            </Link>                                                                   
-                                        </Grid>
-                                        {editable === "" ? 
-                                            <Grid item xs = {6} className = {classes.gridmb}>
-                                                <Button 
-                                                    type = "submit"
-                                                    variant="contained" 
-                                                    fullWidth
-                                                    color="secondary">
-                                                Guardar
-                                                </Button>                                
-                                            </Grid>: <></>}                          
+                                                        color="secondary">
+                                                    Guardar
+                                                    </Button>                                
+                                                </Grid>
+
+                                            </>
+                                            : <></>}                          
                                         
                                         
                                         <Grid item xs = {12} className = {classes.gridmb}>
@@ -245,6 +286,10 @@ const useStyles = makeStyles(() => ({
         lineHeight: 1.5,
         color: Theme.palette.primary.main,
         textDecoration: "none"
+    },input: {
+        color: "black"
+    },floatingLabelFocusStyle: {
+        color: "black"
     }
 }));
 

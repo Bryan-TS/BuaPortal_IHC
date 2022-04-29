@@ -1,6 +1,7 @@
-import { Container, Grid, Card, Avatar, Typography, TextField, Button } from '@material-ui/core';
+import { Container, Grid, Card, Avatar, Typography, TextField, Button, IconButton } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { Box } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
 
@@ -13,9 +14,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useState, useContext } from 'react';
 import axios from 'axios';
 
+import Loading from '../../assets/img/loading.gif'
+
 import Theme from '../../styles/Theme';
 
-const endpoint = 'https://myapplication123321.000webhostapp.com/api/question'
+const endpoint = 'https://whispering-bastion-51346.herokuapp.com/api/question'
 
 const PreguntasCreate = () => {
 
@@ -23,25 +26,43 @@ const PreguntasCreate = () => {
     
     const {handleSubmit, control} = useForm();
     const [user,setUser] = useContext(Context);
+
+    const [createFail,setCreateFail] = useState(false);
+    const [loading,setLoading] = useState(false);
     const history = useHistory();
 
     const store = async (data) => {
+        setLoading(true);
         data = {...data,userId: user.id}
         const response = await axios.post(endpoint,data);
+        const responseData = response.data;
+        setLoading(false);
 
-        if(response.status === 200){
+        if(responseData.code === 200){
             setQuestionCreated(true);  
         
             setTimeout(() => {
                 setQuestionCreated(false);      
                 history.push("/user/preguntas");
-            },3000);
+            },1000);
+        }else{
+            if(responseData.code === 400){
+                setCreateFail(true);
+                setTimeout(() => {
+                    setCreateFail(false);      
+                },3000);
+            }
         }
     };
 
     const classes = useStyles();
     return (
         <Container className = {classes.container}>
+            <Grid container>
+                <IconButton style={{backgroundColor: "#003B5C"}}>
+                    <ArrowBackIcon style={{color: "white"}} onClick={history.goBack}/>
+                </IconButton>
+            </Grid>
             <Grid container justifyContent = "center">
                 <Grid item lg = {5} md = {6}>
                     <Card align = "center" className = {classes.card}>
@@ -111,38 +132,45 @@ const PreguntasCreate = () => {
                                                     multiline
                                                     error={!!error}
                                                     helperText={error ? error.message : null}
+                                                    rows={8}
                                                 />
                                             )
                                         }
                                     />                             
                                 </Grid>
-
-                                <Grid item xs = {6} className = {classes.gridmb}>
-                                    <Link to = "/user/dashboard" style = {{textDecoration: "none"}}>
-                                        <Button 
+                                {
+                                  !loading ?
+                                    <>
+                                        <Grid item xs = {6} className = {classes.gridmb}>
+                                            <Button 
                                                 type = "submit"
                                                 variant="contained" 
                                                 fullWidth
                                                 style={{backgroundColor: "#72727E"}}
                                                 >
-                                            Atras
-                                            </Button> 
-                                    </Link>                                                                   
-                                </Grid>
-
-                                <Grid item xs = {6} className = {classes.gridmb}>
-                                    <Button 
-                                        type = "submit"
-                                        variant="contained" 
-                                        fullWidth
-                                        color="secondary">
-                                      Crear
-                                    </Button>                                
-                                </Grid> 
+                                                Cancelar
+                                            </Button>                                                              
+                                        </Grid>
+        
+                                        <Grid item xs = {6} className = {classes.gridmb}>
+                                            <Button 
+                                                    type = "submit"
+                                                    variant="contained" 
+                                                    fullWidth
+                                                    color="secondary">
+                                                Crear
+                                            </Button>                                                               
+                                        </Grid>
+                                    </>
+                                  :
+                                    <Grid item xs = {12} className = {classes.gridmb}>
+                                      <img src={Loading} alt="loading..." width="40" height="40" /> 
+                                    </Grid>
+                                }
                                 <Grid item xs = {12} className = {classes.gridmb}>
                                     <Box >
                                         {questionCreated ?  <Alert variant="filled" severity="success">Pregunta creada con exito.</Alert> : null}                                           
-                                        
+                                        {createFail ?  <Alert variant="filled" severity="error">Error no se pudo crear la pregunta</Alert> : null}                                           
                                     </Box>
                                 </Grid>                 
                             </Grid>   
