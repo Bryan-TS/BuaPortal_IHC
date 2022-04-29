@@ -14,7 +14,7 @@ import axios from 'axios';
 
 import Theme from '../../styles/Theme';
 
-const endpoint = 'https://myapplication123321.000webhostapp.com/api/question'
+const endpoint = 'https://whispering-bastion-51346.herokuapp.com/api/response/'
 
 const Respuesta = (props) => {
     const [responseLiked,setResponseLiked] = useState(true);
