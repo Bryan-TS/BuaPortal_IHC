@@ -1,4 +1,4 @@
-import { Avatar, Button, Card, CardActionArea, CardContent, CardHeader, Container, Grid, Typography} from '@material-ui/core';
+import { Avatar, Box, Button, Card, CardActionArea, CardContent, CardHeader, Container, Grid, Typography} from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import InfoIcon from '@material-ui/icons/Info';
@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core';
 import { amber, blue, green, grey } from '@material-ui/core/colors';
 import { useEffect, useState, useContext } from 'react';
 import { Context } from '../../context/Context';
+import Loading from '../../assets/img/loading.gif'
 import axios from 'axios';
 
 import { useHistory } from "react-router-dom";
@@ -34,7 +35,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 // const endpoint  = "http://localhost/BuaPortal/BackEnd/BuaPortal_API/public/api/questionsByUser";
-const endpoint  = "https://myapplication123321.000webhostapp.com/api/questionsByUser";
+const endpoint  = "https://whispering-bastion-51346.herokuapp.com/api/questionsByUser";
 
 const Preguntas = () => {
     const classes = useStyles();
@@ -42,23 +43,27 @@ const Preguntas = () => {
 
     const [questionsByUser, setQuestionsByUser] = useState([]);
     const [user,setUser] = useContext(Context);
+    const [loading,setLoading] = useState(false);
 
     useEffect(() => {
+        setLoading(true);
         const getQuestionByUser = async() => {
             if(user !== null){
                 const response = await axios.get(`${endpoint}/${user.id}`);
-                setQuestionsByUser(response.data);
+                const responseData = response.data;
+                setLoading(false);
+                setQuestionsByUser(responseData.data);
             }                                    
         }
+        
         getQuestionByUser();
+        
     },[]);
 
     const showQuestionById = (id) => {
         history.push(`/user/pregunta/${id}`);
     }
     
-
-
     return (
         <Container className = {classes.container}>
             <Grid container  spacing = {2}>
@@ -90,42 +95,48 @@ const Preguntas = () => {
                             }
                             title = "Preguntas"
                         />
-                        <CardContent display = "inline-flex">  
-                            <Grid container  spacing = {2}>                                
+                        <CardContent display = "inline-flex"> 
                             {
-                               questionsByUser.length > 0 ? (questionsByUser.map(question => (
-                                    <Grid item xs={12} key = {question.id}>    
-                                        <CardActionArea onClick={(e) => showQuestionById(question.id,e)}>
-                                            <CardHeader
-                                                className = {classes.cardHeader}
-                                                avatar = {
-                                                    <Avatar >
-                                                        <InfoIcon/>
-                                                    </Avatar>
-                                                    
-                                                }
-                                                titleTypographyProps = {
-                                                {
-                                                    variant: "h6"
-                                                }
-                                                }
-                                                title = {question.title}
-                                                
-                                            />
-                                            <CardContent>
-                                                <Typography variant="body1" color="initial"><b>Descripción 1</b></Typography>                                                                                            
-                                            </CardContent>                                        
-                                        </CardActionArea>
-                                    </Grid>   
-                                ))) : (
-                                    <Grid container justifyContent = "center">
-                                        <Typography variant = "h5">
-                                            No hay resultados
-                                        </Typography>
+                                !loading ?
+
+                                    <Grid container  spacing = {2}>                                
+                                    {
+                                    questionsByUser.length > 0 ? (questionsByUser.map(question => (
+                                            <Grid item xs={12} key = {question.id}>    
+                                                <CardActionArea onClick={(e) => showQuestionById(question.id,e)} >
+                                                    <CardHeader
+                                                        className = {classes.cardHeader}
+                                                        avatar = {
+                                                            <Avatar >
+                                                                <InfoIcon/>
+                                                            </Avatar>
+                                                            
+                                                        }
+                                                        titleTypographyProps = {
+                                                        {
+                                                            variant: "h6"
+                                                        }
+                                                        }
+                                                        title = {question.title}
+                                                    />                                                                                  
+                                                </CardActionArea>
+                                            </Grid>   
+                                        ))) : (
+                                            <Grid container justifyContent = "center">
+                                                <Typography variant = "h5">
+                                                    No hay resultados
+                                                </Typography>
+                                            </Grid>
+                                        )
+                                    }                                                            
                                     </Grid>
-                                )
-                            }                                                            
-                            </Grid>
+                                    :
+                                    <Grid container justifyContent = "center"> 
+                                        <img src={Loading} alt="loading..." width="40" height="40" /> 
+                                    </Grid>
+                            }
+
+                            
                         </CardContent>
                     </Card>                    
                 </Grid>                

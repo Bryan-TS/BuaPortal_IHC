@@ -20,6 +20,7 @@ const Respuesta = (props) => {
     const [responseLiked,setResponseLiked] = useState(true);
     const [likesResponseCounter,setLikesResponseCounter] = useState(0);
     const [unlikesResponseCounter,setUnlikesResponseCounter] = useState(0);
+    const [response,setRespose] = useState({});
     
     const {handleSubmit, control} = useForm();
     const history = useHistory();
@@ -39,6 +40,8 @@ const Respuesta = (props) => {
     };
 
     useEffect(() => {
+        console.log(props.response);
+        setRespose(props.response);
     },[]);
 
     const like = () => {
@@ -67,12 +70,10 @@ const Respuesta = (props) => {
                         variant: "h6"
                     }
                     }
-                    title = "Respuesta 1"
                     
                 />
                 <CardContent>
-                    <Typography variant="body1" color="initial"><b>Respuesta</b></Typography>                                            
-                    
+                    <Typography variant="body1" color="initial"><b>{response.description}</b></Typography>                                                                
                 </CardContent>
                 <CardActions>                                            
                         <Typography>

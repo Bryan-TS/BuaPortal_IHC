@@ -72,7 +72,7 @@ const NavBarUser = () => {
 
   const logOut = () => {
     setUser(null);
-    localStorage.removeItem(user);
+    localStorage.removeItem('user');
     history.push("/login");
   }
 

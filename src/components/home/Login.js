@@ -17,48 +17,42 @@ import { useState, useContext  } from "react";
 
 import { Context } from '../../context/Context';
 
+import Loading from '../../assets/img/loading.gif'
+
 const endpoint = 'https://whispering-bastion-51346.herokuapp.com/api/user/login'
 
 const Login = () => {
     const [autenticado,setAutenticado] = useState(false);
     const {handleSubmit, control} = useForm();
     const [loginFail,setloginFail] = useState(false);
+    const [loading,setLoading] = useState(false);
 
     const [user,setUser] = useContext(Context);
 
-    // const onSubmit = async data => {
-    //     data = JSON.stringify(data);
-    //     const response = await axios.post(endpoint,data);
-    //     console.log(response.data);
-    //     // if(response.data === 401){
-    //     //     setloginFail(true);
-    //     //     setTimeout(() => {
-    //     //         setloginFail(false);      
-    //     //     },3000);
-    //     // }else{
-    //     //     setUser(response.data);
-    //     //     localStorage.setItem("user", JSON.stringify(response.data));
-    //     //     setAutenticado(true);
-    //     // }
-        
-    // };
-
     const onSubmit = async data => {
+        setLoading(true);
         const response = await axios.post(endpoint,data);
-        console.log(response.data);
-        // if(response.data === 401){
-        //     setloginFail(true);
-        //     setTimeout(() => {
-        //         setloginFail(false);      
-        //     },3000);
-        // }else{
-        //     setUser(response.data);
-        //     localStorage.setItem("user", JSON.stringify(response.data));
-        //     setAutenticado(true);
-        // }
+        const responseData = response.data;
+        console.log(responseData);
+        setLoading(false);
+        if(responseData.code === 200){
+
+            setUser(responseData.data);
+            localStorage.setItem("user", JSON.stringify(responseData.data));
+            setAutenticado(true);
+
+        }else{
+            if(responseData.code === 204){
+                setloginFail(true);
+                setTimeout(() => {
+                    setloginFail(false);      
+                },3000);
+            }
+            // Here must be the validation when error server
+            
+        }
         
     };
-
 
     const classes = useStyles();
 
@@ -126,16 +120,22 @@ const Login = () => {
                                     />                                                                       
                                 </Grid>
                                 <Grid item xs = {12} className = {classes.gridmb}>
-                                    {/* <Link to = "/user/dashboard"> */}
+                                    {
+                                        !loading ? 
                                         <Button 
                                             type = "submit"
                                             variant="contained" 
                                             fullWidth
                                             color="primary">
-                                        Sign in
-                                        </Button>  
-                                    {/* </Link>                               */}
-                                </Grid>  
+                                            Sign in
+                                        </Button>
+                                        :
+                                        <Box > 
+                                            <img src={Loading} alt="loading..." width="40" height="40" /> 
+                                        </Box>
+                                        
+                                    }
+                                </Grid> 
                                 <Grid item xs = {12} className = {classes.gridmb}>
                                     <Box >
                                         {loginFail ?  <Alert variant="filled" severity="error">Error sus credenciales son incorrectas.</Alert> : null}                                           
