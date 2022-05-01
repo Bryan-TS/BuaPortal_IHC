@@ -17,6 +17,8 @@ const endpoint = 'https://whispering-bastion-51346.herokuapp.com/api/user'
 
 const RegisterUser = () => {
     const [userCreated,setUserCreated] = useState(false);
+    const [registerFail,setRegisterFail] = useState(false);
+    const [errorMsg,setErrorMsg] = useState("");
     // const store = async (e) => {
     //     e.preventDefault();
     //     await axios.post(endpoint,{
@@ -32,13 +34,14 @@ const RegisterUser = () => {
     //     e.preventDefault();
     //     await axios.post(endpoint,data)
     // }
-    
+
     const {handleSubmit, control} = useForm();
     const history = useHistory();
     const store = async (data) => {
         
         const response = await axios.post(endpoint,data);
-        if(response.status === 200){
+        const responseData = response.data;
+        if(response.code === 200){
             setUserCreated(true);  
         
             setTimeout(() => {
@@ -50,8 +53,19 @@ const RegisterUser = () => {
             // description.value = description;
             // email.value = email;
             // password.value = password;
+        }else{
+            if(responseData.code === 208){
+                setErrorMsg("Esa cuenta de correo ya esta tomada");        
+            }else{
+                if(responseData.code === 400){
+                    setErrorMsg("Ocurrio un error en el servidor");
+                }
+            } 
+            setRegisterFail(true);
+            setTimeout(() => {
+                setRegisterFail(false);      
+            },3000);           
         }
-        // console.log(response);
       };
 
     const classes = useStyles();
@@ -187,9 +201,15 @@ const RegisterUser = () => {
                                 <Grid item xs = {12} className = {classes.gridmb}>
                                     <Box >
                                         {userCreated ?  <Alert variant="filled" severity="success">El usuario fue creado con exito.</Alert> : null}                                           
-                                        
+                                        {registerFail ?  <Alert variant="filled" severity="error">{errorMsg}</Alert> : null}                                                                                       
                                     </Box>
-                                </Grid>                 
+                                </Grid>  
+
+                                {/* <Grid item xs = {12} className = {classes.gridmb}>
+                                    <Box >
+                                    {registerFail ?  <Alert variant="filled" severity="error">{errorMsg}</Alert> : null}                                                                                   
+                                    </Box>
+                                </Grid>                  */}
                             </Grid>
 
                             <Link

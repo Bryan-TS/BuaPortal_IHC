@@ -23,7 +23,7 @@ const AppRouter = () => {
     const [searchButtonClicked,setSearchButtonClicked] = useState(false);
 
     useEffect(() => {
-        console.log("Se refresco la aplicación.");
+        // console.log("Se refresco la aplicación.");
         const userInLocalStorage = localStorage.getItem("user");
         const user = JSON.parse(userInLocalStorage);
 

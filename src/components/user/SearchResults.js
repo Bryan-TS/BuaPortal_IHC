@@ -52,8 +52,8 @@ const SearchResults = () => {
             setResults(responseData.data);                                                
         }
         getResults();
-        console.log(`Peticion: ${endpoint}/${encodeURIComponent(searchTerm)}`);
-        console.log(results);
+        // console.log(`Peticion: ${endpoint}/${encodeURIComponent(searchTerm)}`);
+        // console.log(results);
 
 
         // setSearchButtonClicked(false);

@@ -33,7 +33,7 @@ const Login = () => {
         setLoading(true);
         const response = await axios.post(endpoint,data);
         const responseData = response.data;
-        console.log(responseData);
+        // console.log(responseData);
         setLoading(false);
         if(responseData.code === 200){
 
@@ -106,7 +106,7 @@ const Login = () => {
                                         render = {
                                             ({field:{onChange,value},  fieldState: { error }}) => (
                                                 <TextField                                                    
-                                                    label = "Password"
+                                                    label = "Contraseña"
                                                     variant = "outlined"
                                                     type = "password"
                                                     fullWidth
@@ -126,8 +126,10 @@ const Login = () => {
                                             type = "submit"
                                             variant="contained" 
                                             fullWidth
-                                            color="primary">
-                                            Sign in
+                                            color="primary"
+                                            style={{color: "white"}}
+                                            >
+                                            Iniciar sesión
                                         </Button>
                                         :
                                         <Box > 
@@ -149,7 +151,7 @@ const Login = () => {
                                 variant = "body1"
                                 className = {classes.link}
                                 >
-                                Don't you have a account?. Sign up
+                                ¿Aún no tienes una cuenta? Crea una
                             </Link>                    
                         </form>
                     </Card>

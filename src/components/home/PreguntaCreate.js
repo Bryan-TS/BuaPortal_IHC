@@ -64,7 +64,8 @@ const PreguntasCreate = () => {
                 </IconButton>
             </Grid>
             <Grid container justifyContent = "center">
-                <Grid item lg = {5} md = {6}>
+                {/* <Grid item lg = {5} md = {6}> */}
+                <Grid item>
                     <Card align = "center" className = {classes.card}>
                         <Avatar className = {classes.avatar}>
                             <QuestionAnswerIcon className = {classes.icon}/>
@@ -146,7 +147,7 @@ const PreguntasCreate = () => {
                                                 type = "submit"
                                                 variant="contained" 
                                                 fullWidth
-                                                style={{backgroundColor: "#72727E"}}
+                                                style={{backgroundColor: "#72727E",color:"white"}}
                                                 >
                                                 Cancelar
                                             </Button>                                                              

@@ -19,7 +19,6 @@ const endpoint = 'https://whispering-bastion-51346.herokuapp.com/api/responsesBy
 
 const PreguntasForm = () => {
     const[responses,setResponses] = useState([]);
-    const [countRequest,setCountRequest] = useState(0);
     const {handleSubmit, control} = useForm();
     const [loading,setLoading] = useState(false);
     const history = useHistory();
@@ -41,8 +40,15 @@ const PreguntasForm = () => {
     //     // console.log(`Hola soy el componte. El numero de elementos en el arreglo es:${responses.length}`);
     // }
 
-    const addQuestionsArray = () => {
-        setCountRequest(countRequest + 1);
+    const refreshResponses = () => {
+        setLoading(true);
+        const getResponsesByQuestion = async() => {            
+            const response = await axios.get(`${endpoint}/${id}`);
+            const responseData = response.data;
+            setLoading(false);
+            setResponses(responseData.data);                                               
+        }        
+        getResponsesByQuestion();
     }
 
 
@@ -60,17 +66,17 @@ const PreguntasForm = () => {
         getResponsesByQuestion();        
     },[]);
 
-    useEffect(() => {
-        setLoading(true);
-        const getResponsesByQuestion = async() => {            
-            const response = await axios.get(`${endpoint}/${id}`);
-            const responseData = response.data;
-            setLoading(false);
-            setResponses(responseData.data);                                               
-        }
+    // useEffect(() => {
+    //     setLoading(true);
+    //     const getResponsesByQuestion = async() => {            
+    //         const response = await axios.get(`${endpoint}/${id}`);
+    //         const responseData = response.data;
+    //         setLoading(false);
+    //         setResponses(responseData.data);                                               
+    //     }
         
-        getResponsesByQuestion();        
-    },[countRequest]);
+    //     getResponsesByQuestion();        
+    // },[countRequest]);
 
 
 
@@ -108,7 +114,7 @@ const PreguntasForm = () => {
                                             </Typography>
                                         </Grid>
                                     }
-                                    <RespuestaCreate addQuestionsArray = {addQuestionsArray}/>
+                                    <RespuestaCreate refreshResponses = {refreshResponses}/>
                             </Grid>
                         </CardContent>
                     </Card>

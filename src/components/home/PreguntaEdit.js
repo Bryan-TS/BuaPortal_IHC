@@ -86,7 +86,7 @@ const PreguntasEdit = () => {
                 setCategory(responseData.data.category)
                 setTitle(responseData.data.title)
                 setDescription(responseData.data.description)
-                console.log(response.data); 
+                // console.log(response.data); 
             }                                                         
         }
         questionById();
@@ -207,6 +207,11 @@ const PreguntasEdit = () => {
                                             />                             
                                         </Grid>
                                         <Grid item xs = {12}  container justifyContent="flex-end">
+                                        <Typography variant="h5" color="primary">
+                                            {`Autor: ${question.name} ${question.lastName}`}
+                                        </Typography>
+                                        </Grid>
+                                        <Grid item xs = {12}  container justifyContent="flex-end">
                                             <Typography style={{marginRight:5}}>
                                                 {Math.floor(Math.random() * 51)}
                                             </Typography>
@@ -218,7 +223,7 @@ const PreguntasEdit = () => {
                                                         <Button 
                                                                 variant="contained" 
                                                                 fullWidth
-                                                                style={{backgroundColor: "#72727E"}}
+                                                                style={{backgroundColor: "#72727E", color: "white"}}
                                                                 onClick = {cancelEdit}
                                                                 >
                                                             Cancelar

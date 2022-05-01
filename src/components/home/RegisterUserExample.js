@@ -13,7 +13,7 @@ const RegisterUser = () => {
     const {handleSubmit, control} = useForm();
 
     const onSubmit = data => {
-        console.log(data);
+        // console.log(data);
       };
 
     const classes = useStyles();
