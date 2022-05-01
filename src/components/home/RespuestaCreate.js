@@ -109,7 +109,7 @@ const RespuestaCreate = (props) => {
         }else{
             setUnlikesResponseCounter(unlikesResponseCounter + 1);
         }
-        console.log(props.id);
+        // console.log(props.id);
     }
 
     const classes = useStyles();

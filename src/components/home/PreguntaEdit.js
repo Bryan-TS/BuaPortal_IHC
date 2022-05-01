@@ -86,7 +86,7 @@ const PreguntasEdit = () => {
                 setCategory(responseData.data.category)
                 setTitle(responseData.data.title)
                 setDescription(responseData.data.description)
-                console.log(response.data); 
+                // console.log(response.data); 
             }                                                         
         }
         questionById();

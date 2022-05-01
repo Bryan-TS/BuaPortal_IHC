@@ -33,7 +33,7 @@ const Login = () => {
         setLoading(true);
         const response = await axios.post(endpoint,data);
         const responseData = response.data;
-        console.log(responseData);
+        // console.log(responseData);
         setLoading(false);
         if(responseData.code === 200){
 

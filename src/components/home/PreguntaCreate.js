@@ -147,7 +147,7 @@ const PreguntasCreate = () => {
                                                 type = "submit"
                                                 variant="contained" 
                                                 fullWidth
-                                                style={{backgroundColor: "#72727E"}}
+                                                style={{backgroundColor: "#72727E",color:"white"}}
                                                 >
                                                 Cancelar
                                             </Button>                                                              
