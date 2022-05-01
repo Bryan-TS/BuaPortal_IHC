@@ -2,13 +2,10 @@ import { AppBar, Toolbar, Button, Grid, Typography, IconButton, ListItem, List, 
 import { makeStyles } from '@material-ui/core/styles';
 import { Person } from '@material-ui/icons';
 import MenuIcon from '@material-ui/icons/Menu';
-import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import SearchIcon from '@material-ui/icons/Search';
-import PersonIcon from '@material-ui/icons/Person';
 import { Link } from 'react-router-dom';
 import { styled, alpha } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase/InputBase'
-import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 
 import { useState, useContext  } from "react";
 import { Context } from '../../context/Context';
@@ -16,7 +13,6 @@ import { Context } from '../../context/Context';
 import { useHistory } from "react-router-dom";
 
 import BUAPIconN from '../../assets/img/BUAPIconNegativo.png'
-import BUAPIcon from '../../assets/img/BUAPIconBlack.png'
 import HomeIcon from '@material-ui/icons/Home';
 import { SearchContext } from '../../context/SearchContext';
 
@@ -102,70 +98,48 @@ const NavBarUser = () => {
             onClose = {toggleDrawer}
           >
             <List className = {classes.list}>
-              <ListItem className = {classes.listItem}>
-                  <Link color = "inherit" className = {classes.linkAppBarMobile} underline = "none">
-                    <ListItemIcon className = {classes.listItemIcon}>
-                      <img src={BUAPIcon} alt="Logo" width = "25px" height = "auto"/>
-                    </ListItemIcon>                  
-                    <ListItemText>
-                      BuaPortal
-                    </ListItemText>
-                  </Link>          
-                </ListItem>
+              
                 <li>
                   <Typography
                     className={classes.dividerFullWidth}
-                    color="secondary"
+                    color="textSecondary"
                     display="block"
                     variant="caption"
-                    style = {{marginLeft:20}}
                   >
-                  Navegación
+                  Navigation
                   </Typography>
                 </li>
-              <ListItem className = {classes.listItem}>
-                <Link color = "inherit" className = {classes.linkAppBarMobile} underline = "none">
-                  <ListItemIcon className = {classes.listItemIcon}>
-                    <PersonIcon/>
-                  </ListItemIcon>                  
-                  <ListItemText>
-                    {`Bienvenido ${user.name}`}
-                  </ListItemText>
-                </Link>          
-              </ListItem>
               <ListItem button onClick = {toggleDrawer} className = {classes.listItem}>
-                <Link to = "/user/dashboard" color = "inherit" className = {classes.linkAppBarMobile} underline = "none">
+                <Link to = "/" color = "inherit" className = {classes.linkAppBarMobile} underline = "none">
                   <ListItemIcon className = {classes.listItemIcon}>
                     <HomeIcon/>
                   </ListItemIcon>                  
                   <ListItemText>
-                    Inicio
+                    Home
                   </ListItemText>
-                </Link>          
+                </Link>
               </ListItem>
-
+              <Divider component="li" />
+              <li>
+                <Typography
+                  className={classes.dividerFullWidth}
+                  color="textSecondary"
+                  display="block"
+                  variant="caption"
+                >
+                  User
+                </Typography>
+              </li>
               <ListItem button onClick = {toggleDrawer} className = {classes.listItem}>
-                <Link to = "/user/preguntas" color = "inherit" className = {classes.linkAppBarMobile} underline = "none">
-                    <ListItemIcon className = {classes.listItemIcon}>
-                      <QuestionAnswerIcon/>
-                    </ListItemIcon>                  
-                    <ListItemText>
-                      Mis preguntas
-                    </ListItemText>
-                  </Link>
+                <Link to = "/login" color = "inherit" className = {classes.linkAppBarMobile} underline = "none">
+                  <ListItemIcon className = {classes.listItemIcon}>
+                    <Person/>
+                  </ListItemIcon>
+                  <ListItemText>
+                    Bienvenido
+                  </ListItemText>
+                </Link>
               </ListItem>
-
-              <ListItem button onClick = {toggleDrawer} className = {classes.listItem}>
-                <Link onClick={logOut} color = "inherit" className = {classes.linkAppBarMobile} underline = "none">
-                    <ListItemIcon className = {classes.listItemIcon}>
-                      <ExitToAppOutlinedIcon/>
-                    </ListItemIcon>                  
-                    <ListItemText>
-                      Cerrar sesión
-                    </ListItemText>
-                  </Link>
-              </ListItem>
-              <Divider component="li" />              
             </List>
           </Drawer>
           
@@ -183,7 +157,7 @@ const NavBarUser = () => {
               <Typography variant="h6" color="initial" className = {classes.title}>
                 Bienvenido {user.name}
               </Typography>
-              <Link to = "/user/preguntas" className = {classes.link}>
+              <Link to = "/user/dashboard" className = {classes.link}>
                 <Button variant="text" color="inherit" className = {classes.navigationBtn}>
                   Inicio
                 </Button>
@@ -215,7 +189,7 @@ const useStyles = makeStyles(theme => ({
   menuIcon:{
     marginRight: 5,
     display: "none",
-    [theme.breakpoints.down('md')]:{
+    [theme.breakpoints.down('xs')]:{
       display: "inline"
     }
   },
@@ -240,7 +214,7 @@ const useStyles = makeStyles(theme => ({
       color: 'black',
       
     },
-    [theme.breakpoints.down('md')]:{
+    [theme.breakpoints.down('xs')]:{
       display: "none"
     }
   },

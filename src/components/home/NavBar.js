@@ -2,6 +2,7 @@ import { AppBar, Toolbar, Button, Box, Typography, IconButton, ListItem, List, D
 import { makeStyles } from '@material-ui/core/styles';
 import { Person } from '@material-ui/icons';
 import MenuIcon from '@material-ui/icons/Menu';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -53,8 +54,28 @@ const NavBar = () => {
                   </ListItemText>
                 </Link>
               </ListItem>
+              <ListItem button onClick = {toggleDrawer} className = {classes.listItem}>
+                <Link to = "/login" color = "inherit" className = {classes.linkAppBarMobile} underline = "none">
+                  <ListItemIcon className = {classes.listItemIcon}>
+                    <Person/>
+                  </ListItemIcon>
+                  <ListItemText>
+                    Iniciar sesión
+                  </ListItemText>
+                </Link>
+              </ListItem>
+              <ListItem button onClick = {toggleDrawer} className = {classes.listItem}>
+                <Link to = "/signup" color = "inherit" className = {classes.linkAppBarMobile} underline = "none">
+                  <ListItemIcon className = {classes.listItemIcon}>
+                    <PersonAddIcon/>
+                  </ListItemIcon>
+                  <ListItemText>
+                    Registrarse
+                  </ListItemText>
+                </Link>
+              </ListItem>
               <Divider component="li" />
-              <li>
+              {/* <li>
                 <Typography
                   className={classes.dividerFullWidth}
                   color="textSecondary"
@@ -70,10 +91,10 @@ const NavBar = () => {
                     <Person/>
                   </ListItemIcon>
                   <ListItemText>
-                    Login
+                    Iniciar sesión
                   </ListItemText>
                 </Link>
-              </ListItem>
+              </ListItem> */}
             </List>
           </Drawer>
 

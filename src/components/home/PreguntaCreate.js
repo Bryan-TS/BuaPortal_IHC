@@ -64,7 +64,8 @@ const PreguntasCreate = () => {
                 </IconButton>
             </Grid>
             <Grid container justifyContent = "center">
-                <Grid item lg = {5} md = {6}>
+                {/* <Grid item lg = {5} md = {6}> */}
+                <Grid item>
                     <Card align = "center" className = {classes.card}>
                         <Avatar className = {classes.avatar}>
                             <QuestionAnswerIcon className = {classes.icon}/>
