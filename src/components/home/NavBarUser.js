@@ -183,7 +183,7 @@ const NavBarUser = () => {
               <Typography variant="h6" color="initial" className = {classes.title}>
                 Bienvenido {user.name}
               </Typography>
-              <Link to = "/user/preguntas" className = {classes.link}>
+              <Link to = "/user/dashboard" className = {classes.link}>
                 <Button variant="text" color="inherit" className = {classes.navigationBtn}>
                   Inicio
                 </Button>

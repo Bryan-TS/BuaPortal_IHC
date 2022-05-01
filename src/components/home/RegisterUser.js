@@ -41,7 +41,7 @@ const RegisterUser = () => {
         
         const response = await axios.post(endpoint,data);
         const responseData = response.data;
-        if(response.code === 200){
+        if(responseData.code === 200){
             setUserCreated(true);  
         
             setTimeout(() => {
@@ -201,7 +201,7 @@ const RegisterUser = () => {
                                 <Grid item xs = {12} className = {classes.gridmb}>
                                     <Box >
                                         {userCreated ?  <Alert variant="filled" severity="success">El usuario fue creado con exito.</Alert> : null}                                           
-                                        {registerFail ?  <Alert variant="filled" severity="error">{errorMsg}</Alert> : null}                                                                                       
+                                        {!userCreated && registerFail ?  <Alert variant="filled" severity="error">{errorMsg}</Alert> : null}                                                                                       
                                     </Box>
                                 </Grid>  
 
