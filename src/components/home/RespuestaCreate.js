@@ -28,7 +28,7 @@ const RespuestaCreate = (props) => {
     const [errorTitle,setErrorTtitle] = useState(false);
     const [errorDescription,setErrorDescription] = useState(false);
 
-    const {addQuestionsArray} = props
+    const {refreshResponses} = props
     
     const [user,setUser] = useContext(Context);
 
@@ -94,7 +94,8 @@ const RespuestaCreate = (props) => {
                     //     addQuestionsArray(responseData2.data)
                     // }
                     // addQuestionsArray(responseData2.data)
-                    addQuestionsArray();
+                    refreshResponses();
+                    clearForm();
                 }            
             }
         }
@@ -170,7 +171,7 @@ const RespuestaCreate = (props) => {
                                 variant="contained" 
                                 fullWidth
                                 onClick = {clearForm}
-                                color="secondary">
+                                style={{backgroundColor: "#72727E",color: "white"}}>
                                 
                                 Cancelar
                             </Button>                                                  

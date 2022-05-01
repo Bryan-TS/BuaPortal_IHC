@@ -82,10 +82,7 @@ const NavBar = () => {
               <Button variant="text" color="inherit" className = {classes.navigationBtn}>
                 Inicio
               </Button>
-            </Link>
-            <Button variant="text" color="inherit" className = {classes.navigationBtn}>
-              Acerca de nosotros
-            </Button>            
+            </Link>           
           </Box>        
           <Box className = {classes.credentialsBox}>
             <Link to = "/login" className = {classes.link}>
